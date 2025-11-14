@@ -1,6 +1,8 @@
-# Supplemental Information for Disease Module program note for CDMetaPOP-v3.00
+# Simulation Data and Code for CDMetaPOP-Disease Manuscript
 
-This repository contains input files, simulation output data, analysis scripts, and figures corresponding to the CDMetaPOP-v3.00 disease module program note
+This repository contains the input files, analysis scripts, summarized output data, and supplementary documentation required to replicate all analyses and figures in the manuscript:
+
+**Simulating the Landscape Eco-Evolution of Host-Pathogen Systems with CDMetaPOP**
 
 **For all CDMetaPOP source code, please see https://github.com/ComputationalEcologyLab/CDMetaPOP**
 
