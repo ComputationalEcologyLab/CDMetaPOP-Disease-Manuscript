@@ -16,23 +16,19 @@ This repository contains the input files, analysis scripts, summarized output da
 
 **Repository Structure**
 
-- /Theoretical_Validation/: Contains input files (/inputs/) and (/outputs/) for validating/verifying the module against classical SIR, SIRS, SEIR, and SIRP models. Also includes the Python script (run_verification.py) to generate the deterministic ODE solutions. These files reproduce Figure 1.
+- /Theoretical_Simulated_Expectations/: These files reproduce Figure 1. Zipfiles for /Input_Files/ and /Output_Files/ for validating/verifying the module against classical SIR, SIRS, SEIR, and SIRP models. Also includes the Python script (run_verification.py) to generate the deterministic ODE solutions with the simulated expectations.
 
-- /figure_4_selection_demo/: Contains input files (/inputs/) for the aspatial eco-evolutionary demonstration (Null, Neutral, Resistance, Tolerance, and Res+Tol scenarios).
+- /Selection_Scenarios/: These files reproduce Figure 2 for the aspatial eco-evolutionary demonstration (Null, Neutral, Resistance, Tolerance, and Res+Tol scenarios). Contains input files (/Inputs/) for the aspatial eco-evolutionary demonstration (Null, Neutral, Resistance, Tolerance, and Res+Tol scenarios). Zipfile containing inputs, script for generating figure, and supplemental figure for the example of emergence of a disease response gennetic strategy and its impact on disease dynamics
 
-/figures_5_6_spatial_app/: Contains input files (/inputs/) for the Myotis velifer spatial application, separated by Scenario 1 (disease spread, Fig 5) and Scenario 2 (evolutionary response, Fig 6).
+- /Example_Application/: These files reproduce Figue 3 & 4 and contain all necessary input files to replicate the spatial example of novel disease emergence and spread through a bat system model. Contains /Input_Files/, /Scripts/ to run CDMetaPOP and plot /Figures/ for the spatial example.
 
-/analysis_scripts/: Contains all R scripts (.R) used to analyze simulation outputs and generate the final manuscript figures.
+- /Supplementary_Materials/: Contains all materials formerly in the manuscript Appendix.
 
-/archived_outputs/: Contains the summarized data files (.csv) generated from the simulations. These files are the direct input for the R scripts in /analysis_scripts/ and can be used to replicate all figures without re-running the full simulations.
+- - CDMetaPOP_Disease_Module_Documentation.md: A detailed user guide (formerly Appendix Text A.1 and Table A.1).
 
-/supplementary_materials/: Contains all materials formerly in the manuscript Appendix.
+- - CDMetaPOP_Life_Cycle_Diagram.png: (Formerly Figure A.1).
 
-CDMetaPOP_Disease_Module_Documentation.md: A detailed user guide (formerly Appendix Text A.1 and Table A.1).
-
-CDMetaPOP_Life_Cycle_Diagram.png: (Formerly Figure A.1).
-
-/videos/: Contains supplementary videos (formerly Video A.1-A.4) showing spatial simulation results.
+- - /videos/: Contains supplementary videos (formerly Video A.1-A.4) showing spatial simulation results.
 
 How to Replicate Manuscript Figures
 
