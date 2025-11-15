@@ -8,19 +8,17 @@ This repository contains the input files, analysis scripts, summarized output da
 
 **Permanent DOI for this repository:** TBD
 
-**About This Repository**
-
-This repository provides all necessary materials for the replication of our manuscript. It is organized by the figures presented in the paper.
+**About This Repository:** This repository provides all necessary materials for the replication of our manuscript. It is organized by the figures presented in the paper.
 
 **Software:** The simulations were run using CDMetaPOP v3.08. The main software repository (including the installer) is available at: https://github.com/ComputationalEcologyLab/CDMetaPOP
 
-**Analysis:** Figures were generated using R (v. 4.x.x).
+**Analysis:** Figures were generated using R or Python.
 
 **Repository Structure**
 
-- /figure_1_theorectical_expectations/: Contains input files (/inputs/) for verifying the module against classical SIR, SIRS, SEIR, and SIRP models. Also includes the Python script (run_verification.py) to generate the deterministic ODE solutions.
+- /Theoretical_Validation/: Contains input files (/inputs/) and (/outputs/) for validating/verifying the module against classical SIR, SIRS, SEIR, and SIRP models. Also includes the Python script (run_verification.py) to generate the deterministic ODE solutions. These files reproduce Figure 1.
 
-/figure_4_selection_demo/: Contains input files (/inputs/) for the aspatial eco-evolutionary demonstration (Null, Neutral, Resistance, Tolerance, and Res+Tol scenarios).
+- /figure_4_selection_demo/: Contains input files (/inputs/) for the aspatial eco-evolutionary demonstration (Null, Neutral, Resistance, Tolerance, and Res+Tol scenarios).
 
 /figures_5_6_spatial_app/: Contains input files (/inputs/) for the Myotis velifer spatial application, separated by Scenario 1 (disease spread, Fig 5) and Scenario 2 (evolutionary response, Fig 6).
 
