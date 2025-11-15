@@ -14,16 +14,16 @@ This repository contains the input files, analysis scripts, summarized output da
 
 ## Repository Structure
 
-**- /Theoretical_Simulated_Expectations/:** These files reproduce Figure 1. Zipfiles for **/Input_Files/** and **/Output_Files/** for validating/verifying the module against classical SIR, SIRS, SEIR, and SIRP models. Also includes the Python script (run_verification.py) to generate the deterministic ODE solutions with the simulated expectations.
+- **/Theoretical_Simulated_Expectations/:** These files reproduce Figure 1. Zipfiles for **/Input_Files/** and **/Output_Files/** for validating/verifying the module against classical SIR, SIRS, SEIR, and SIRP models. Also includes the Python script (run_verification.py) to generate the deterministic ODE solutions with the simulated expectations.
 
-**- /Selection_Scenarios/:** These files reproduce Figure 2 for the aspatial eco-evolutionary demonstration (Null, Neutral, Resistance, Tolerance, and Res+Tol scenarios). Zipfile containing inputs, script for generating figure, and supplemental figure for the example of emergence of a disease response gennetic strategy and its impact on disease dynamics
+- **/Selection_Scenarios/:** These files reproduce Figure 2 for the aspatial eco-evolutionary demonstration (Null, Neutral, Resistance, Tolerance, and Res+Tol scenarios). Zipfile containing inputs, script for generating figure, and supplemental figure for the example of emergence of a disease response gennetic strategy and its impact on disease dynamics
 
-**- /Example_Application/:** These files reproduce Figue 3 & 4 and contain all necessary input files to replicate the spatial example of novel disease emergence and spread through a bat system model. Contains: 
+- **/Example_Application/:** These files reproduce Figue 3 & 4 and contain all necessary input files to replicate the spatial example of novel disease emergence and spread through a bat system model. Contains: 
   - /Input_Files/ 
   - /Scripts/ to run CDMetaPOP and plot 
   - /Figures/ supplemental figures for the spatial example.
 
-**- /Supplementary_Materials/:** Contains all materials formerly in the manuscript Appendix.
+- **/Supplementary_Materials/:** Contains all materials formerly in the manuscript Appendix.
   - CDMetaPOP_Disease_Module_Documentation.docx: A detailed user guide (formerly Appendix Text A.1 and Table A.1).
   - CDMetaPOP_Life_Cycle_Diagram.png: (Formerly Figure A.1).
   - /videos/: Contains supplementary videos (formerly Video A.1-A.4) showing spatial simulation results.
