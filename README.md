@@ -1,12 +1,12 @@
 # Simulation Data and Code for CDMetaPOP-Disease Manuscript
 
-This repository contains the input files, analysis scripts, summarized output data, and supplementary documentation required to replicate all analyses and figures in the manuscript: **Simulating the Landscape Eco-Evolution of Host-Pathogen Systems with CDMetaPOP**, a new module for CDMetaPOP for simulating disease transmission and spread in realistic landscapes (Manuscript submitted to Molecular Biology and Evolution, 2025)
+This repository contains the input files, analysis scripts, summarized output data, and supplementary documentation required to replicate all analyses and figures in the manuscript: **Simulating the Landscape Eco-Evolution of Host-Pathogen Systems with CDMetaPOP**, a new module in CDMetaPOP for simulating disease transmission and spread in realistic landscapes (Manuscript submitted to Molecular Biology and Evolution, 2025)
 
 **Authors:** Erin L. Landguth, Allison Williams, Marissa Roseman,  Miracle Amadi, Marcel Kouete, Rhys Farrer, Amy Haeseler, Orly Razgour, Chris Richardson, Byron Weckworth, Julie Weckworth, Flora Whiting-Fawcett, Duncan Wilson, Casey Day
 
 **Permanent DOI for this repository:** TBD
 
-**About This Repository:** This repository provides all necessary materials for the replication of our manuscript. It is organized by the figures presented in the paper.
+**About This Repository:** This repository contains all materials necessary to reproduce the analyses from our manuscript. The contents are organized according to the figures presented in the paper.
 
 **Software:** The simulations were run using CDMetaPOP v3.08. The main software repository (including the installer) is available at: https://github.com/ComputationalEcologyLab/CDMetaPOP
 
@@ -16,9 +16,9 @@ This repository contains the input files, analysis scripts, summarized output da
 
 - **/Theoretical_Simulated_Expectations/:** These files reproduce Figure 1. Zipfiles for **/Input_Files/** and **/Output_Files/** for validating/verifying the module against classical SIR, SIRS, SEIR, and SIRP models. Also includes the Python script (run_verification.py) to generate the deterministic ODE solutions with the simulated expectations.
 
-- **/Selection_Scenarios/:** These files reproduce Figure 2 for the aspatial eco-evolutionary demonstration (Null, Neutral, Resistance, Tolerance, and Res+Tol scenarios). Zipfile containing inputs, script for generating figure, and supplemental figure for the example of emergence of a disease response gennetic strategy and its impact on disease dynamics
+- **/Selection_Scenarios/:** These files reproduce Figure 2 for the aspatial eco-evolutionary demonstration (Null, Neutral, Resistance, Tolerance, and Res+Tol scenarios). The folder includes a zip file containing the input files, the script used to generate the figure, and a supplemental figure illustrating the emergence of a disease-response genetic strategy and its impact on disease dynamics.
 
-- **/Example_Application/:** These files reproduce Figue 3 & 4 and contain all necessary input files to replicate the spatial example of novel disease emergence and spread through a bat system model. Contains: 
+- **/Example_Application/:** These files reproduce Figue 3 & 4 and contain all necessary input files to replicate the spatial example of novel disease emergence and spread through a bat system model. This folder contains:
   - /Input_Files/ 
   - /Scripts/ to run CDMetaPOP and plot 
   - /Figures/ supplemental figures for the spatial example.
