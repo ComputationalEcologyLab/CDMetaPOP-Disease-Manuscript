@@ -14,7 +14,7 @@ This repository contains the input files, analysis scripts, summarized output da
 
 ## Repository Structure
 
-- **/Theoretical_Simulated_Expectations/:** These files reproduce Figure 1. Zipfiles for **/Input_Files/** and **/Output_Files/** for validating/verifying the module against classical SIR, SIRS, SEIR, and SIRP models. Also includes the Python script (run_verification.py) to generate the deterministic ODE solutions with the simulated expectations.
+- **/Theoretical_Validation/:** These files reproduce Figure 1. Zipfiles for **/Input_Files/** and **/Output_Files/** for validating/verifying the module against classical SIR, SIRS, SEIR, and SIRP models. Also includes the Python script (run_verification.py) to generate the deterministic ODE solutions with the simulated expectations.
 
 - **/Selection_Scenarios/:** These files reproduce Figure 2 for the aspatial eco-evolutionary demonstration (Null, Neutral, Resistance, Tolerance, and Res+Tol scenarios). The folder includes a zip file containing the input files, the script used to generate the figure, and a supplemental figure illustrating the emergence of a disease-response genetic strategy and its impact on disease dynamics.
 
