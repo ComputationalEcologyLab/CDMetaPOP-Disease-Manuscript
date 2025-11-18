@@ -48,9 +48,9 @@ This method re-runs the CDMetaPOP simulations from scratch to generate the raw d
 
 1. Install CDMetaPOP: Follow the installation instructions at the main CDMetaPOP repository.
 
-2. Navigate to a Figure Directory: cd figure_4_selection_demo/inputs/
+2. Navigate to a Figure Directory: cd /Theoretical_Validation/Inputs_Files/
 
-3. Run Simulation: Run the CDMetaPOP executable using the input files in this directory (e.g., CDMetaPOP.exe PopVars_Neutral.csv).
+3. Run Simulation: Run the CDMetaPOP program using the input files in this directory
 
 4. Repeat: Repeat this process for all simulation scenarios (Neutral, Resistance, etc.)
 
