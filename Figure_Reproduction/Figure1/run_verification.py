@@ -128,12 +128,12 @@ model_configs = {
     },
     "SIRS": {
         "base_path": r"SIRS",
-        "prefix": "run0batch1mc",
+        "prefix": "run0batch0mc",
         "comps": ['S', 'I', 'R']
     },
     "SEIR": {
         "base_path": r"SEIR",
-        "prefix": "run0batch2mc",
+        "prefix": "run0batch0mc",
         "comps": ['S', 'E', 'I', 'R']
     },
     "SIRP": {
