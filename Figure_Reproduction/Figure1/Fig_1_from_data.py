@@ -6,7 +6,6 @@ from scipy.integrate import odeint
 from matplotlib.lines import Line2D
 
 
-# Plotting
 model_configs = {
     "SIR": {
         "base_path": r"Figure_1_summary_data/SIR",
@@ -31,9 +30,8 @@ model_configs = {
     }
 }
 
-# Setup figure
-fig, axs = plt.subplots(2, 2, figsize=(12, 12), sharex=True, sharey=True)
 
+fig, axs = plt.subplots(2, 2, figsize=(12, 12), sharex=True, sharey=True)
 labels = ['a', 'b', 'c', 'd']
 colors = {
     'S': '#56B4E9',     # Sky Blue
@@ -44,7 +42,6 @@ colors = {
 }
 
 timesteps = range(51)
-
 for ax, (model, cfg), label in zip(axs.flat, model_configs.items(), labels):
     
     file_path = f"{cfg['base_path']}/{model}_results_"
@@ -61,13 +58,14 @@ for ax, (model, cfg), label in zip(axs.flat, model_configs.items(), labels):
 
         idx = comps.index(comp)
         ax.plot(t_ode, sol[:, idx], color=colors[comp], linewidth=2.5)
+        if comp == "P":
+            timesteps = np.array(timesteps)[:-1] + 1.0
+            means[comp] = means[comp][:-1]
         ax.plot(timesteps, means[comp], linestyle='--', color=colors[comp], linewidth=2)
         ax.tick_params(axis='both', labelsize=14)  
 
-    # Only panel label, no model title
     ax.text(0.02, 0.9, f"({label})", transform=ax.transAxes, fontsize=18, fontweight='bold')
     ax.grid(True)
-
 
 color_legend = [
     Line2D([0], [0], color='#56B4E9', lw=2, label='S'),
@@ -77,7 +75,6 @@ color_legend = [
     Line2D([0], [0], color='#CC79A7', lw=2, label='P')
 ]
 
-
 style_legend = [
     Line2D([0], [0], color='black', lw=2, linestyle='-', label='ODE'),
     Line2D([0], [0], color='black', lw=2, linestyle='--', label='Simulation')
@@ -86,7 +83,6 @@ style_legend = [
 fig.legend(color_legend + style_legend, 
            [h.get_label() for h in color_legend + style_legend],
            loc='upper center', ncol=7, fontsize=16, frameon=False)
-
 
 fig.supxlabel("Year", fontsize=16, y=0.03)
 fig.supylabel("Population size", fontsize=16)

@@ -1,12 +1,6 @@
-import os
 import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from scipy.integrate import odeint
-from matplotlib.lines import Line2D
+from permetrics.regression import RegressionMetric
 
-
-# Plotting
 model_configs = {
     "SIR": {
         "base_path": r"../Figure_Reproduction/Figure1/Figure_1_summary_data/SIR",
@@ -42,34 +36,34 @@ for model, cfg in model_configs.items():
     sol = np.load(file_path+'sol.npy', allow_pickle=True)
     comps = list(np.load(file_path+'comps.npy', allow_pickle=True))
 
-
+    print("\n")
+    print(model)
     for comp in cfg["comps"]:
+        print(comp)
         idx = comps.index(comp)
-        observed = sol[:, idx][::20]
-        simulated = means[comp][:-1]
-        def calculate_kge(observed, simulated):
-            # 1. Correlation coefficient
-            r = np.corrcoef(observed, simulated)[0, 1]
-            
-            # 2. Variability ratio (Alpha)
-            alpha = np.std(simulated) / np.std(observed)
-            
-            # 3. Bias ratio (Beta)
-            beta = np.mean(simulated) / np.mean(observed)
-            
-            # Calculate KGE
-            kge = 1 - np.sqrt((r - 1)**2 + (alpha - 1)**2 + (beta - 1)**2)
-            
-            return kge, r, alpha, beta
+        data = sol[:, idx]
+        obs = means[comp][:-1]
+        if comp == 'P':
+            data = sol[:, idx][1:]
+            obs = means[comp][:-2]
 
-        # Usage
-        score, corr, var, bias = calculate_kge(observed, simulated)
+        evaluator = RegressionMetric(data, obs)
+        print("r Squared: ",evaluator.coefficient_of_determination())
+        print("NRMSE: ", evaluator.normalized_root_mean_square_error())
+        print("NSE: ", evaluator.nash_sutcliffe_efficiency())
+        print("KGE: ", evaluator.kling_gupta_efficiency())
 
-        print(f"Total KGE Score: {score:.3f}")
-        print(f"  - Correlation: {corr:.3f}")
-        print(f"  - Variability Match: {var:.3f} (1.0 is perfect)")
-        print(f"  - Bias Match: {bias:.3f} (1.0 is perfect)")
         print("\n")
+
+
+
+
+
+
+
+
+
+
 
 
 
