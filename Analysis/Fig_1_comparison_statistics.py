@@ -48,7 +48,8 @@ for model, cfg in model_configs.items():
             obs = means[comp][:-2]
 
         evaluator = RegressionMetric(data, obs)
-        print("r Squared: ",evaluator.coefficient_of_determination())
+        print("(Pearson’s Correlation Index)**2: ", evaluator.pearson_correlation_coefficient_square())
+        print("R2 - Coefficient of Determination: ",evaluator.coefficient_of_determination())
         print("NRMSE: ", evaluator.normalized_root_mean_square_error())
         print("NSE: ", evaluator.nash_sutcliffe_efficiency())
         print("KGE: ", evaluator.kling_gupta_efficiency())

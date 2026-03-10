@@ -1,5 +1,5 @@
-# Code to replicate figure 4 after running CDMetaPOP
-# Population dynamics and allele frequencies of the Myotis velifer spatial example metapopulation following disease introduction
+# Code to replicate figure 2 after running CDMetaPOP
+# Population dynamics and allele frequencies of the Myotis velifer aspatial example following disease introduction
 # Note that particularly the summarizing step for plotting allele frequencies 
 #   can take a long time, so when possible, it helps to run on an HPC cluster or high performance machine
 # If you run as a batch script that way, change the set-up info as needed and 
@@ -11,57 +11,57 @@ library(ggplot2)
 
 # Set base directory where the CDMetaPop raw output files are stored
 # This should contain directories named run0batch0mc0species0, run0batch0mc1species0, etc
-base_dir_spatial <- "Spatial_inputs"
+base_dir_aspatial <- "Aspatial_inputs"
 
 # Define where figure outputs should go
 output_dir <- "figure_outputs"
 
-# For Fig 4 we ran CDMetaPop for 4 scenarios:
-#   0 = Neutral
-#   1 = Resistance
-#   2 = Tolerance
-#   3 = Resistance + Tolerance
-batch_nums_spatial <- 0:3
-batches_spatial <- paste0("batch", 0:3)
+# Define batches for each fig
+# For Fig 4 we ran CDMetaPop for 5 scenarios:
+# Numbering of these scenarios starts at 0 since CDMetaPop using python numbering syntax
+#   0 = Null
+#   1 = Neutral
+#   2 = Resistance
+#   3 = Tolerance
+#   4 = Resistance + Tolerance
+batch_nums_aspatial <- 0:4
+batches_aspatial <- paste0("batch", 0:4)
 
 #Define the number of MCs used:
-num_mcs_spatial <- 0:24
+num_mcs_aspatial <- 0:99
 
-# SIDP Pop Size (Fig 4a) ----------------------------------------------------
+# SIRD Pop Size (Fig 4a) ----------------------------------------------------
 
 # .....Collect all plot data----
 message("Collecting plot data")
-batch_vals <- batch_nums_spatial
-mc_vals    <- num_mcs_spatial
-base_dir   <- base_dir_spatial
 
-all_disease_state_data <- map_dfr(batch_nums_spatial, function(batch) {
+batch_vals <- batch_nums_aspatial
+mc_vals    <- num_mcs_aspatial
+base_dir   <- base_dir_aspatial
+
+all_disease_state_data <- map_dfr(batch_vals, function(batch) {
   
-  mc_paths <- paste0(base_dir_spatial, "/run0batch", batch, "mc", num_mcs_spatial, "species0/summary_popAllTime_DiseaseStates.csv")
+  mc_paths <- paste0(base_dir_aspatial, "/run0batch", batch, "mc", num_mcs_aspatial, "species0/summary_popAllTime_DiseaseStates.csv")
   
   all_reps <- lapply(mc_paths, function(path){
     df <- read_csv(path, show_col_types = FALSE)
     
     df %>%
-      mutate(SID = sub("\\|.*", "", States_SecondUpdate)) %>%
-      separate(SID, into = c("S", "I", "D"), sep = ";", convert = TRUE) %>%
-      mutate(
-        # sum values in EnvReservoir_GetMetrics for P
-        P = sapply(strsplit(EnvResivoir_GetMetrics, "\\|"), 
-                   function(x) sum(as.numeric(x), na.rm = TRUE))
-      )
+      mutate(SIRD = sub("\\|.*", "", States_SecondUpdate)) %>%
+      separate(SIRD, into = c("S", "I", "R", "D"), sep = ";", convert = TRUE)
   })
   
   combined_df <- bind_rows(all_reps, .id = "replicate")
   
   summary_df <- combined_df %>%
-    mutate(N = S + I) %>%  # Total pop (optional now)
+    mutate(N = S + I + R) %>%  # Total population size
     group_by(Year) %>%
     summarise(
       S_mean = mean(S), S_sd = sd(S),
       I_mean = mean(I), I_sd = sd(I),
+      R_mean = mean(R), R_sd = sd(R),
       D_mean = mean(D), D_sd = sd(D),
-      P_mean = mean(P), P_sd = sd(P),
+      N_mean = mean(N), N_sd = sd(N),
       .groups = "drop"
     )
   
@@ -70,7 +70,7 @@ all_disease_state_data <- map_dfr(batch_nums_spatial, function(batch) {
                  names_pattern = "(.)_(mean|sd)") %>%
     mutate(
       Batch = paste0("Batch ", batch),
-      State = factor(State, levels = c("S", "I", "D", "P"))
+      State = factor(State, levels = c("S", "I", "R", "D", "N"))
     )
   
   return(plot_df)
@@ -78,28 +78,27 @@ all_disease_state_data <- map_dfr(batch_nums_spatial, function(batch) {
 
 # .....Rename, recode, filter out N ----
 all_disease_state_data <- all_disease_state_data %>%
+  filter(!State == "N") %>%
   rename(Scenario = Batch) %>%
   mutate(Scenario = recode(Scenario,
-                           "Batch 0" = "Neutral",
-                           "Batch 1" = "Resistance",
-                           "Batch 2" = "Tolerance",
-                           "Batch 3" = "Res. + Tol.")) %>%
+                           "Batch 0" = "Null",
+                           "Batch 1" = "Neutral",
+                           "Batch 2" = "Resistance",
+                           "Batch 3" = "Tolerance",
+                           "Batch 4" = "Res. + Tol.")) %>%
   mutate(Scenario = factor(Scenario, levels = c("Null", "Neutral", "Resistance",
                                                 "Tolerance", "Res. + Tol.")))
 
-# .....Plot SIDP ----
-SIDP_fig <- ggplot(all_disease_state_data, aes(x = Year, y = mean, 
+# .....Plot SIRD ----
+SIRD_fig <- ggplot(all_disease_state_data, aes(x = Year, y = mean, 
                                                color = Scenario, shape = Scenario, fill = Scenario)) +
   geom_line(linewidth = 0.5) +
-  geom_point(data = all_disease_state_data %>% filter(Year %% 50 == 0), 
+  geom_point(data = all_disease_state_data %>% filter(Year %% 10 == 0), 
              size = 2, color = "black") +
   geom_ribbon(aes(ymin = mean - sd, ymax = mean + sd), alpha = 0.15, color = NA) +
-  facet_wrap(~ State, ncol = 2, scales = "free_y") +  # Now includes P
-  scale_shape_manual(values = c(1,2,4,5)) +
-  scale_color_manual(values = c("#a3a500", "#00bf7d", "#00b0f6", "#e76bf3")) +
-  scale_fill_manual(values = c("#a3a500", "#00bf7d", "#00b0f6", "#e76bf3")) +
+  facet_wrap(~ State, ncol = 2, scales = "free_y") +  # 4 panels: S, I, R, D
+  scale_shape_manual(values = c(0,1,2,4,5)) +
   #scale_x_continuous(limits = c(0,200)) +
-  geom_vline(xintercept = 50, linetype = "dashed", color = "red") +
   theme_minimal(base_size = 12) +
   theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)) +
   labs(
@@ -111,9 +110,9 @@ SIDP_fig <- ggplot(all_disease_state_data, aes(x = Year, y = mean,
     title = "a"
   )
 
-SIDP_fig
+SIRD_fig
 
-ggsave(paste0(output_dir, "/SIDP_by_state.png"), SIDP_fig,
+ggsave(paste0(output_dir, "/SIRD_by_state.png"), SIRD_fig,
        width = 12, height = 7, dpi = 300, bg = "white")
 
 
@@ -135,16 +134,16 @@ calc_allele_freq <- function(file, year, run) {
 #### .....Collect summary allele frequencies for all batches ####
 # This summarizes across scenarios and MCs
 message("Collecting summary allele frequencies")
-batch <- batches_spatial
-mc_vals    <- num_mcs_spatial
-base_dir   <- base_dir_spatial
+batch <- batches_aspatial
+mc_vals    <- num_mcs_aspatial
+base_dir   <- base_dir_aspatial
 
 all_batches_summary <- map_dfr(batch, function(batch) {
-  mc_paths <- paste0("run0", batch, "mc", num_mcs_spatial, "species0")
+  mc_paths <- paste0("run0", batch, "mc", num_mcs_aspatial, "species0")
   
   all_freqs <- map_dfr(mc_paths, function(run) {
-    map_dfr(0:299, function(i) {
-      file <- file.path(base_dir_spatial, run, paste0("ind", i, ".csv"))
+    map_dfr(0:99, function(i) {
+      file <- file.path(base_dir_aspatial, run, paste0("ind", i, ".csv"))
       if (file.exists(file)) {
         calc_allele_freq(file, i, run)
       } else {
@@ -166,7 +165,7 @@ all_batches_summary <- map_dfr(batch, function(batch) {
       Batch = paste0(batch),
       Allele = factor(Allele, levels = c("p", "q"))
     )
-  
+
   return(summary_df)
 })
 
@@ -176,14 +175,13 @@ all_batches_summary <- map_dfr(batch, function(batch) {
 all_batches_summary <- all_batches_summary %>%
   rename(Scenario = Batch) %>%
   mutate(Scenario = recode(Scenario,
-                           #"batch0" = "Null",
-                           "batch0" = "Neutral",
-                           "batch1" = "Resistance",
-                           "batch2" = "Tolerance",
-                           "batch3" = "Res. + Tol.")) %>%
-  mutate(Scenario = factor(Scenario, levels = c(#"Null",
-    "Neutral", "Resistance",
-    "Tolerance", "Res. + Tol."))) %>%
+                           "batch0" = "Null",
+                           "batch1" = "Neutral",
+                           "batch2" = "Resistance",
+                           "batch3" = "Tolerance",
+                           "batch4" = "Res. + Tol.")) %>%
+  mutate(Scenario = factor(Scenario, levels = c("Null", "Neutral", "Resistance",
+                                                "Tolerance", "Res. + Tol."))) %>%
   mutate(Locus = recode(Locus,
                         "Locus 1" = "Neutral 1",
                         "Locus 2" = "Neutral 2",
@@ -196,17 +194,14 @@ Allele_Freq <- ggplot(all_batches_summary, aes(x = Year, y = mean, color = Allel
   geom_line(linewidth = 1) +
   geom_ribbon(aes(ymin = mean - sd, ymax = mean + sd), alpha = 0.2, color = NA) +
   facet_grid(Locus ~ Scenario) +
-  scale_x_continuous(limits = c(0, 300), breaks = seq(0,300, by = 50),
+  scale_x_continuous(limits = c(0, 100), breaks = seq(0,100, by = 50),
                      name = "Year", sec.axis = sec_axis(~ ., name = "Scenario"))+
   scale_y_continuous(name = "Allele Frequency", sec.axis = sec_axis(~ ., name = "Locus")) +
-  geom_vline(xintercept = 50, linetype = "dashed", color = "red") +
   theme_minimal(base_size = 12) +
   theme(axis.text.y.right = element_blank(),
         axis.ticks.y.right = element_blank(),
         axis.text.x.top = element_blank(),
         axis.ticks.x.top = element_blank(),
-        axis.text.x.bottom = element_text(size= 8),
-        axis.text.y.left = element_text(size = 8),
         panel.border = element_rect(color = "black", 
                                     fill = NA,  linewidth = 0.3)) +
   labs(
@@ -220,7 +215,7 @@ Allele_Freq <- ggplot(all_batches_summary, aes(x = Year, y = mean, color = Allel
 Allele_Freq
 
 ggsave(
-  filename = paste0(output_dir, "/spatial_allele_freq.png"),
+  filename = paste0(output_dir, "/aspatial_allele_freq.png"),
   plot = Allele_Freq,
   width = 12,
   height = 8,
@@ -235,6 +230,6 @@ library(patchwork)
 
 png(filename = paste0(output_dir, "/fig4_combined.png"),
     width = 8, height = 9, units = "in", res = 300)
-SIDP_fig / Allele_Freq 
+SIRD_fig / Allele_Freq 
 dev.off()
 
