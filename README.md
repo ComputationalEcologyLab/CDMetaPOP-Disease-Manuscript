@@ -1,3 +1,12 @@
+# CDMetaPOP-Disease Manuscript Figure Reproduction
+
+##### Table of Contents  
+[Headers](#headers)  
+[Emphasis](#emphasis)  
+...snip...    
+<a name="headers"/>
+## Headers
+
 # Simulation Data and Code for CDMetaPOP-Disease Manuscript
 
 This repository contains the input files, analysis scripts, summarized output data, and supplementary documentation required to replicate all analyses and figures in the manuscript: **Simulating the Landscape Eco-Evolution of Host-Pathogen Systems with CDMetaPOP**, a new module in CDMetaPOP for simulating disease transmission and spread in realistic landscapes (Manuscript submitted to Molecular Biology and Evolution, 2025)
