@@ -24,7 +24,7 @@ To recreate the figures summary data is provided and all that needs to be done i
 Figure 1, 2, and 3 use python and Figure 4, 5, and 6 use R.
 
 >[!NOTE]
->The provided codes should work with up current releses of python and R packages, but environment setup is provide.  
+>The provided codes should work with current releases of python and R packages, but environment setup is also provided.  
 
 ### To begin
 >[!Important]
