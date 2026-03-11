@@ -1,10 +1,16 @@
 # CDMetaPOP-Disease Manuscript Figure Reproduction
 
 ### Table of Contents  
+[Introduction](#introduction)
 [Software Install](#software-install)  
-
-
+[Figure 1](#figure-1)
+[Figure 2](#figure-2)
+[Figure 3](#figure-3)
+[Figure 4](#figure-4)
+[Figure 5](#figure-5)
+[Figure 6](#figure-6)
 <a name="headers"/>
+
 ## Introduction
 
 ## Software Install
