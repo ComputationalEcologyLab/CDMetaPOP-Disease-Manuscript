@@ -23,11 +23,12 @@ This repository contains the files to recreate and reproduce the figures and ana
 To recreate the figures summary data is provided and all that needs to be done is to run the provided code. 
 Figure 1, 2, and 3 use python and Figure 4, 5, and 6 use R.
 
-The provided codes should work with up current releses of python and R packages, but enviorment setup is provide.  
-To setup the python enivorment make sure either [Anaconda](https://www.anaconda.com/docs/getting-started/anaconda/install), [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install), or your favorite conda provider is installed.
-There follow the instructions:
+The provided codes should work with up current releses of python and R packages, but enviorment setup is provide. 
+To setup the python enivorment make sure either [Anaconda](https://www.anaconda.com/docs/getting-started/anaconda/install), [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install), or your favorite conda provider is installed. 
+Then enter the following instructions in the terminal (please choose your favorite: Anaconda propmt, Spyder terminal, bash, etc.):
 ```
-test
+conda env create -f environment.yml
+conda activate CDMetaPOP_Disease_env
 ```
 
 ## Figure 1
