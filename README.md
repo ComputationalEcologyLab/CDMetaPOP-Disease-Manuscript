@@ -14,7 +14,8 @@
 ## Introduction
 
 This repository contains the files to recreate and reproduce the figures and anaylses in the manuscript:
-> [!NOTE] Landguth, E. L., et al. (Submitted). "Simulating the Landscape Eco-Evolution of Host-Pathogen Systems with CDMetaPOP"
+> [!NOTE]
+> Landguth, E. L., et al. (Submitted). "Simulating the Landscape Eco-Evolution of Host-Pathogen Systems with CDMetaPOP"
 
 >**Full Authorship:** Erin L. Landguth, Allison Williams, Marissa Roseman, Miracle Amadi, Baylor Fain, Marcel Kouete, Rhys A. Farrer, Amy J. Haeseler, Orly Razgour, Chris Richardson, Byron Weckworth, Julie Weckworth, Flora Whiting-Fawcett, Duncan Wilson, Casey C. Day
 
