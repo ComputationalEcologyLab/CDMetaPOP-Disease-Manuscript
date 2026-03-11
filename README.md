@@ -13,6 +13,10 @@
 
 ## Introduction
 
+This repository contains the files to recreate and reproduce the figures and anaylses in the manuscript:
+> Landguth, E. L., et al. (Submitted). "Simulating the Landscape Eco-Evolution of Host-Pathogen Systems with CDMetaPOP"
+**Full Authorship:** Erin L. Landguth, Allison Williams, Marissa Roseman, Miracle Amadi, Baylor Fain, Marcel Kouete, Rhys A. Farrer, Amy J. Haeseler, Orly Razgour, Chris Richardson, Byron Weckworth, Julie Weckworth, Flora Whiting-Fawcett, Duncan Wilson, Casey C. Day
+
 ## Software Install
 
 ## Figure 1
@@ -27,19 +31,7 @@
 
 ## Figure 6
 
-# Simulation Data and Code for CDMetaPOP-Disease Manuscript
 
-This repository contains the input files, analysis scripts, summarized output data, and supplementary documentation required to replicate all analyses and figures in the manuscript: **Simulating the Landscape Eco-Evolution of Host-Pathogen Systems with CDMetaPOP**, a new module in CDMetaPOP for simulating disease transmission and spread in realistic landscapes (Manuscript submitted to Molecular Biology and Evolution, 2025)
-
-**Authors:** Erin L. Landguth, Allison Williams, Marissa Roseman,  Miracle Amadi, Marcel Kouete, Rhys Farrer, Amy Haeseler, Orly Razgour, Chris Richardson, Byron Weckworth, Julie Weckworth, Flora Whiting-Fawcett, Duncan Wilson, Casey Day
-
-**Permanent DOI for this repository:** TBD
-
-**About This Repository:** This repository contains all materials necessary to reproduce the analyses from our manuscript. The contents are organized according to the figures presented in the paper.
-
-**Software:** The simulations were run using CDMetaPOP v3.08. The main software repository (including the installer) is available at: https://github.com/ComputationalEcologyLab/CDMetaPOP
-
-**Analysis:** Figures were generated using R or Python.
 
 ## Repository Structure
 
