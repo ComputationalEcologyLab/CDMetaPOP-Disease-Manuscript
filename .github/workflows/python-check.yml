@@ -34,11 +34,20 @@ jobs:
         python --version
         pip list
 
-    - name: Run Simulation Test
+    - name: Run Fig 1 Test
+      working-directory: ./Figure_Reproduction/Figure1
       run: |
-        python Figure_Reproduction/Figure1/Fig_1_from_data.py
-        python Figure_Reproduction/Figure2/Plot_CDMetaPOPFit.py
-        python Figure_Reproduction/Figure3/Plot_CDMetaPOPFit.py
+        python Fig_1_from_data.py
+
+    - name: Run Fig 2 Test
+      working-directory: ./Figure_Reproduction/Figure2
+      run: |
+        python Plot_CDMetaPOPFit.py
+
+    - name: Run Fig 3 Test
+      working-directory: ./Figure_Reproduction/Figure3
+      run: |
+        python Plot_CDMetaPOPFit.py
 
 
 
