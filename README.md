@@ -1,5 +1,8 @@
 # CDMetaPOP-Disease Manuscript Figure Reproduction
 
+![Compatibility Check](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/actions/workflows/python-check.yml/badge.svg)
+
+
 ### Table of Contents  
 - [Introduction](#introduction)
 - [Software Install](#software-install)  
