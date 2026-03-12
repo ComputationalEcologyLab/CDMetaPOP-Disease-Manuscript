@@ -33,3 +33,19 @@ jobs:
       run: |
         python --version
         pip list
+
+    - name: Run Simulation Test
+      run: |
+        python Figure_Reproduction/Figure1/Fig_1_from_data.py
+        python Figure_Reproduction/Figure2/Plot_CDMetaPOPFit.py
+        python Figure_Reproduction/Figure3/Plot_CDMetaPOPFit.py
+
+
+
+
+
+
+
+
+
+
