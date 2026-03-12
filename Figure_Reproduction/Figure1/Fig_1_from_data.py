@@ -1,8 +1,5 @@
-import os
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
-from scipy.integrate import odeint
 from matplotlib.lines import Line2D
 
 
@@ -58,7 +55,7 @@ for ax, (model, cfg), label in zip(axs.flat, model_configs.items(), labels):
 
         idx = comps.index(comp)
         ax.plot(t_ode, sol[:, idx], color=colors[comp], linewidth=2.5)
-        if comp == "P":
+        if comp == "P": #the time is shifted because CDMetaPOP currently reports P after the first year. (Will be fixed in future update)
             timesteps = np.array(timesteps)[:-1] + 1.0
             means[comp] = means[comp][:-1]
         ax.plot(timesteps, means[comp], linestyle='--', color=colors[comp], linewidth=2)
@@ -87,7 +84,7 @@ fig.legend(color_legend + style_legend,
 fig.supxlabel("Year", fontsize=16, y=0.03)
 fig.supylabel("Population size", fontsize=16)
 plt.tight_layout(rect=[0, 0.05, 1, 0.93])
-plt.show()
+plt.savefig("images/Figure1.png")
 
 
 
