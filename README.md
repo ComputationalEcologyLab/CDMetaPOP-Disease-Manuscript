@@ -55,13 +55,17 @@ renv::restore()
 >[!Important]
 > Follow the instructions in [Software Install](#software-install), for python and begin with this repo as your working directory
 
+#### Recreation
+
 To recreate Figure 1:
-- Navigate to the Figure1 directory within Figure_Reproduction.
+- Navigate to the [Figure1](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure1) directory within Figure_Reproduction.
     - ``` cd Figure_Reproduction/Figure1``` 
 - run
     - ``` python Fig_1_from_data.py ```
 
-The image for figure 1 (Figure_1.png) will be created in the images directory with in Figure1.
+The image for figure 1 (Figure_1.png) will be created in the images directory with in [Figure1](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure1).
+
+#### Reproduction
 
 To reproduce Figure 1:
 
@@ -70,13 +74,17 @@ To reproduce Figure 1:
 >[!Important]
 > Follow the instructions in [Software Install](#software-install), for python and begin with this repo as your working directory
 
+#### Recreation
+
 To recreate Figure 2:
-- Navigate to the Figure2 directory within Figure_Reproduction.
+- Navigate to the [Figure2](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure2) directory within Figure_Reproduction.
     - ``` cd Figure_Reproduction/Figure2``` 
 - run
     - ``` python Fig_2_from_data.py ```
 
-The image for figure 2 (Figure_2.png) will be created in the images directory with in Figure2.
+The image for figure 2 (Figure_2.png) will be created in the images directory with in [Figure2](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure2).
+
+#### Reproduction
 
 To reproduce Figure 2:
 
@@ -85,13 +93,17 @@ To reproduce Figure 2:
 >[!Important]
 > Follow the instructions in [Software Install](#software-install), for python and begin with this repo as your working directory
 
+#### Recreation
+
 To recreate Figure 3:
-- Navigate to the Figure3 directory within Figure_Reproduction.
+- Navigate to the [Figure3](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure3) directory within Figure_Reproduction.
     - ``` cd Figure_Reproduction/Figure3``` 
 - run
     - ``` python Fig_3_from_data.py ```
 
-The image for figure 3 (Figure_3.png) will be created in the images directory with in Figure3.
+The image for figure 3 (Figure_3.png) will be created in the images directory with in [Figure3](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure3).
+
+#### Reproduction
 
 To reproduce Figure 3:
 
@@ -100,14 +112,18 @@ To reproduce Figure 3:
 >[!Important]
 > Follow the instructions in [Software Install](#software-install), for R and begin with this repo as your working directory
 
+#### Recreation
+
 To recreate Figure 4:
-- Double click the .Rprofile file, which will open Rstudio
-- Navigate to the Figure4 directory within Figure_Reproduction.
+- Double click the [.Rprofile](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/blob/manuscript_prep/.Rprofile) file, which will open Rstudio
+- Navigate to the [Figure4](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure4) directory within Figure_Reproduction.
     - ``` setwd("Figure_Reproduction/Figure4") ``` 
 - run in the console
     - ``` source("Fig_4_from_data.R") ```
 
-The image for figure 4 (Figure_4.png) will be created in the figure_outputs directory with in Figure4.
+The image for figure 4 (Figure_4.png) will be created in the figure_outputs directory with in [Figure4](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure4).
+
+#### Reproduction
 
 To reproduce Figure 4:
 
@@ -116,14 +132,18 @@ To reproduce Figure 4:
 >[!Important]
 > Follow the instructions in [Software Install](#software-install), for R and begin with this repo as your working directory
 
+#### Recreation
+
 To recreate Figure 5:
-- Double click the .Rprofile file, which will open Rstudio
-- Navigate to the Figure5 directory within Figure_Reproduction.
+- Double click the [.Rprofile](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/blob/manuscript_prep/.Rprofile) file, which will open Rstudio
+- Navigate to the [Figure5](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure5) directory within Figure_Reproduction.
     - ``` setwd("Figure_Reproduction/Figure5") ``` 
 - run in the console
     - ``` source("Fig_5_from_data.R") ```
 
-The image for figure 5 (Figure_5.png) will be created in the figure_outputs directory with in Figure5.
+The image for figure 5 (Figure_5.png) will be created in the figure_outputs directory with in [Figure5](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure5).
+
+#### Reproduction
 
 To reproduce Figure 5:
 
@@ -132,62 +152,19 @@ To reproduce Figure 5:
 >[!Important]
 > Follow the instructions in [Software Install](#software-install), for R and begin with this repo as your working directory
 
+#### Recreation
+
 To recreate Figure 6:
-- Double click the .Rprofile file, which will open Rstudio
-- Navigate to the Figure6 directory within Figure_Reproduction.
+- Double click the [.Rprofile](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/blob/manuscript_prep/.Rprofile) file, which will open Rstudio
+- Navigate to the [Figure6](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure6) directory within Figure_Reproduction.
     - ``` setwd("Figure_Reproduction/Figure6") ```  
 - run in the console
     - ``` source("Fig_6_from_data.R") ```
 
-The image for figure 6 (Figure_6.png) will be created in the figure_outputs directory with in Figure6.
+The image for figure 6 (Figure_6.png) will be created in the figure_outputs directory with in [Figure6](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure6).
+
+#### Reproduction
 
 To reproduce Figure 6:
 
-
-
-## Repository Structure
-
-- **/Theoretical_Validation/:** These files reproduce Figure 1. Zipfiles for **/Input_Files/** and **/Output_Files/** for validating/verifying the module against classical SIR, SIRS, SEIR, and SIRP models. Also includes the Python script (run_verification.py) to generate the deterministic ODE solutions with the simulated expectations.
-
-- **/Selection_Scenarios/:** These files reproduce Figure 2 for the aspatial eco-evolutionary demonstration (Null, Neutral, Resistance, Tolerance, and Res+Tol scenarios). The folder includes a zip file containing the input files, the script used to generate the figure, and a supplemental figure illustrating the emergence of a disease-response genetic strategy and its impact on disease dynamics.
-
-- **/Example_Application/:** These files reproduce Figue 3 & 4 and contain all necessary input files to replicate the spatial example of novel disease emergence and spread through a bat system model. This folder contains:
-  - /Input_Files/ 
-  - /Scripts/ to run CDMetaPOP and plot 
-  - /Figures/ supplemental figures for the spatial example.
-
-- **/Supplementary_Materials/:** Contains all materials formerly in the manuscript Appendix.
-  - CDMetaPOP_Disease_Module_Documentation.docx: A detailed user guide (formerly Appendix Text A.1 and Table A.1).
-  - CDMetaPOP_Life_Cycle_Diagram.png: (Formerly Figure A.1).
-  - /videos/: Contains supplementary videos (formerly Video A.1-A.4) showing spatial simulation results.
-
-## How to Replicate Manuscript Figures
-
-**Option 1: Replicate Figures from Archived Data (Recommended)**
-
-This is the fastest method and does not require running the CDMetaPOP simulations.
-
-1. Clone this repository.
-
-2. Open any R script provided in each folder.
-
-3. The script will load the corresponding data file from /archived_outputs/.
-
-4. Run the R script to generate the figure.
-
-**Option 2: Full Replication by Re-running Simulations (Advanced)**
-
-This method re-runs the CDMetaPOP simulations from scratch to generate the raw data.
-
-1. Install CDMetaPOP: Follow the installation instructions at the main CDMetaPOP repository.
-
-2. Navigate to a Figure Directory: cd /Theoretical_Validation/Inputs_Files/
-
-3. Run Simulation: Run the CDMetaPOP program using the input files in this directory
-
-4. Repeat: Repeat this process for all simulation scenarios (Neutral, Resistance, etc.)
-
-## Supplementary Materials & Documentation
-
-For detailed parameter definitions, user manual instructions, and supplementary videos, please see the /Supplementary_Materials/ folder in this repository.
 
