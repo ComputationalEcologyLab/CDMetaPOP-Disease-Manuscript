@@ -88,8 +88,7 @@ ggsave(
 
 library(patchwork)
 
-png(filename = paste0(output_dir, "/fig4_combined.png"),
-    width = 8, height = 9, units = "in", res = 300)
-SIRD_fig / Allele_Freq 
+png(filename = paste0(output_dir, "/Figure_4.png"), width = 8, height = 9, units = "in", res = 300)
+print(SIRD_fig / Allele_Freq)
 dev.off()
 

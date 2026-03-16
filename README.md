@@ -43,7 +43,7 @@ pip install -r requirements.txt
 ```
 
 #### R environment
-To setup the R environment use Rstudio and make sure 'Renv' is installed (install.packages("renv")). 
+To setup the R environment use [Rstudio](https://posit.co/download/rstudio-desktop/) and make sure `Renv` is installed (`install.packages("renv"`)). 
 Then enter the following instructions in the terminal:
 ```
 renv::restore()
@@ -53,8 +53,7 @@ renv::restore()
 ## Figure 1
 
 >[!Important]
-> Follow the instructions in [Software Install](#software-install), for python
-> Begin with this repo as your working directory
+> Follow the instructions in [Software Install](#software-install), for python and begin with this repo as your working directory
 
 To recreate Figure 1:
 - Navigate to the Figure1 directory within Figure_Reproduction.
@@ -64,13 +63,12 @@ To recreate Figure 1:
 
 The image for figure 1 (Figure_1.png) will be created in the images directory with in Figure1.
 
-To reproduce Figure1:
+To reproduce Figure 1:
 
 ## Figure 2
 
 >[!Important]
-> Follow the instructions in [Software Install](#software-install), for python
-> Begin with this repo as your working directory
+> Follow the instructions in [Software Install](#software-install), for python and begin with this repo as your working directory
 
 To recreate Figure 2:
 - Navigate to the Figure2 directory within Figure_Reproduction.
@@ -80,13 +78,12 @@ To recreate Figure 2:
 
 The image for figure 2 (Figure_2.png) will be created in the images directory with in Figure2.
 
-To reproduce Figure2:
+To reproduce Figure 2:
 
 ## Figure 3
 
 >[!Important]
-> Follow the instructions in [Software Install](#software-install), for python
-> Begin with this repo as your working directory
+> Follow the instructions in [Software Install](#software-install), for python and begin with this repo as your working directory
 
 To recreate Figure 3:
 - Navigate to the Figure3 directory within Figure_Reproduction.
@@ -96,25 +93,55 @@ To recreate Figure 3:
 
 The image for figure 3 (Figure_3.png) will be created in the images directory with in Figure3.
 
-To reproduce Figure3:
+To reproduce Figure 3:
 
 ## Figure 4
 
 >[!Important]
-> Follow the instructions in [Software Install](#software-install), for R
-> Begin with this repo as your working directory
+> Follow the instructions in [Software Install](#software-install), for R and begin with this repo as your working directory
+
+To recreate Figure 4:
+- Double click the .Rprofile file, which will open Rstudio
+- Navigate to the Figure4 directory within Figure_Reproduction.
+    - ``` setwd("Figure_Reproduction/Figure4") ``` 
+- run in the console
+    - ``` source("Fig_4_from_data.R") ```
+
+The image for figure 4 (Figure_4.png) will be created in the figure_outputs directory with in Figure4.
+
+To reproduce Figure 4:
 
 ## Figure 5
 
 >[!Important]
-> Follow the instructions in [Software Install](#software-install), for R
-> Begin with this repo as your working directory
+> Follow the instructions in [Software Install](#software-install), for R and begin with this repo as your working directory
+
+To recreate Figure 5:
+- Double click the .Rprofile file, which will open Rstudio
+- Navigate to the Figure5 directory within Figure_Reproduction.
+    - ``` setwd("Figure_Reproduction/Figure5") ``` 
+- run in the console
+    - ``` source("Fig_5_from_data.R") ```
+
+The image for figure 5 (Figure_5.png) will be created in the figure_outputs directory with in Figure5.
+
+To reproduce Figure 5:
 
 ## Figure 6
 
 >[!Important]
-> Follow the instructions in [Software Install](#software-install), for R
-> Begin with this repo as your working directory
+> Follow the instructions in [Software Install](#software-install), for R and begin with this repo as your working directory
+
+To recreate Figure 6:
+- Double click the .Rprofile file, which will open Rstudio
+- Navigate to the Figure6 directory within Figure_Reproduction.
+    - ``` setwd("Figure_Reproduction/Figure6") ```  
+- run in the console
+    - ``` source("Fig_6_from_data.R") ```
+
+The image for figure 6 (Figure_6.png) will be created in the figure_outputs directory with in Figure6.
+
+To reproduce Figure 6:
 
 
 

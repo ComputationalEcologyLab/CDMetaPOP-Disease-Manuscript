@@ -129,7 +129,7 @@ plt.xlabel("Year")
 plt.ylabel("Population size")
 plt.legend()
 plt.tight_layout()
-plt.savefig("images/bestfit.png")
+plt.savefig("figure_outputs/bestfit.png")
 plt.close()
 
 ############# CI
@@ -177,7 +177,7 @@ plt.xlabel('Year')
 plt.ylabel('Population Size')
 plt.legend()
 plt.tight_layout()
-plt.savefig("images/CI")
+plt.savefig("figure_outputs/CI")
 plt.close()
 
 ######################################################3
@@ -216,7 +216,7 @@ plt.legend(
 )
 
 axes[0,0].text(0.02, 0.94, f"({sub_label[1]})", transform=fig.transFigure, fontsize=label_size, fontweight='bold')
-plt.savefig("images/corner.png")
+plt.savefig("figure_outputs/corner.png")
 plt.close()
 
 
@@ -238,7 +238,7 @@ axs[2].set_ylabel(labels[2])
 axs[0].text(0.02, 0.94, f"({sub_label[2]})", transform=fig.transFigure, fontsize=label_size, fontweight='bold')
 plt.xlabel("Number of Iterations")
 plt.tight_layout()
-plt.savefig("images/walker.png")
+plt.savefig("figure_outputs/walker.png")
 plt.close()
 
 
@@ -247,17 +247,17 @@ import matplotlib.image as mpimg
 
 fig, axs = plt.subplots(2, 2, figsize=(20, 20))
 
-axs[0, 0].imshow(mpimg.imread("images/bestfit.png"))
+axs[0, 0].imshow(mpimg.imread("figure_outputs/bestfit.png"))
 axs[0, 0].axis('off')
-axs[0, 1].imshow(mpimg.imread("images/corner.png"))
+axs[0, 1].imshow(mpimg.imread("figure_outputs/corner.png"))
 axs[0, 1].axis('off')
-axs[1, 0].imshow(mpimg.imread("images/walker.png"))
+axs[1, 0].imshow(mpimg.imread("figure_outputs/walker.png"))
 axs[1, 0].axis('off')
-axs[1, 1].imshow(mpimg.imread("images/CI.png"))
+axs[1, 1].imshow(mpimg.imread("figure_outputs/CI.png"))
 axs[1, 1].axis('off')
 
 plt.tight_layout()
-plt.savefig("images/Figure_3.png")
+plt.savefig("figure_outputs/Figure_3.png")
 plt.close()
 
 

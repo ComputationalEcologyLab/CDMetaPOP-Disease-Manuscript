@@ -28,7 +28,7 @@ batch_nums_spatial <- 0:3
 # Static spatial spread (Fig 5) --------------------------------------------
 
 # Read in data
-Fig_5_data<- readRDS(paste0(input_dir, "/Fig_5_data.Rds"))
+# plot_data<- readRDS(paste0(input_dir, "/Fig_5_data.Rds"))
 
 #Get map outlines
 countries <- ne_countries(scale = "medium", returnclass = "sf")
@@ -66,7 +66,7 @@ ggplot(plot_data) +
          size = guide_legend(title = "No. infected")) +
   theme_minimal(base_size = 12)
 
-ggsave(filename = paste0(output_dir, "/static_spread.png"), 
+ggsave(filename = paste0(output_dir, "/Figure_5.png"), 
        dpi = 300, width = 5, height = 4.5, units = "in", bg = "white")
 
 
