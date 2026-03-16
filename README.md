@@ -37,7 +37,7 @@ Figure 1, 2, and 3 use python and Figure 4, 5, and 6 use R.
 To setup the python environment make sure either [Anaconda](https://www.anaconda.com/docs/getting-started/anaconda/install), [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install), or your favorite conda provider is installed. 
 Then enter the following instructions in the terminal (please choose your favorite terminal: Anaconda prompt, Spyder terminal, bash, etc.):
 ```
-conda create --name CDMetaPOP_Disease_env python=3.8
+conda create --name CDMetaPOP_Disease_env python
 conda activate CDMetaPOP_Disease_env
 pip install -r requirements.txt
 ```
@@ -51,6 +51,15 @@ renv::restore()
 
 
 ## Figure 1
+
+>[!Important]
+> Begin with this repo as your working directory
+
+To recreate Figure 1:
+- Navigate to the Figure1 folder within Figure_Reproduction.
+    - ``` cd Figure_Reproduction/Figure1``` 
+- run
+    - ``` python Fig_1_from_data.py ```
 
 ## Figure 2
 

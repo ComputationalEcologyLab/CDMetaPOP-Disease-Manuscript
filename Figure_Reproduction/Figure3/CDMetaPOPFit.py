@@ -131,13 +131,14 @@ def SSR(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
     return SSR
 
 
-LocOfTM = r'../NewFiles/OnePatch_SIRS/otherfiles/disease/TransitionMatrix_SIRS_SSR.csv'
+LocOfTM = r'/home/baylor/Documents/GitHub/Disease_Parameter_Estimation/NewFiles/OnePatch_SIRS/otherfiles/disease/TransitionMatrix_SIRS_SSR.csv'
 
-LocOfsrc = r'../src/'
+LocOfsrc = r'/home/baylor/Documents/GitHub/Disease_Parameter_Estimation/src/'
 
-LocOfRunVars = r'../NewFiles/OnePatch_SIRS/'
+LocOfRunVars = r'/home/baylor/Documents/GitHub/Disease_Parameter_Estimation/NewFiles/OnePatch_SIRS/'
 
-LocOfOutput = r'../NewFiles/OnePatch_SIRS/output/'
+
+LocOfOutput = r'/home/baylor/Documents/GitHub/Disease_Parameter_Estimation/NewFiles/OnePatch_SIRS/output/'
 
 
 filename = LocOfRunVars+'RunVars.csv'
@@ -212,8 +213,7 @@ np.save("I_ave.npy", I_ave)
 np.save("D_ave.npy", D_ave)
 
 # Fitting #####################################
-test_params = [0.4195153,  0.16454749, 0.1693596]
-#[0.4795153,  0.19454749, 0.1693596]#[0.5, 0.2, 0.2]#np.random.rand(3)
+test_params = [0.54985047, 0.22113357, 0.21202528]#[0.5, 0.2, 0.2]#np.random.rand(3)
 
 simplex = np.array([test_params, [test_params[0]*2.0, test_params[1], test_params[2]], [test_params[0], test_params[1]*2.0, test_params[2]], [test_params[0], test_params[1], test_params[2]*2.0]]) 
 res = minimize(SSR, x0=test_params, args=(LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput), method="Nelder-Mead", options={'initial_simplex': simplex, 'xatol': 1e-3})

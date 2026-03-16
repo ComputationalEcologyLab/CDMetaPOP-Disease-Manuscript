@@ -190,7 +190,7 @@ ndim = len(labels)
 fig = corner.corner(
     flat_samples, 
     labels=labels, 
-    truths=[0.55631616, 0.2171536, 0.21002341],
+    truths=[0.54985047, 0.22113357, 0.21202528],
     quantiles=[0.16, 0.5, 0.84],
     show_titles=True,
     plot_datapoints=True,

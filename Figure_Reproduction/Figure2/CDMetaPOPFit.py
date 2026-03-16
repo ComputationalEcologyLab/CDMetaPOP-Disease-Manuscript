@@ -68,7 +68,6 @@ def load_fixed_simulation_data(base_path, folder_prefix, compartments, env=False
 
 def CDMetaPOP(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
 
-    print(params0)
     beta = params0[0]
     gamma = params0[1]
 
@@ -111,6 +110,16 @@ def SSR(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
     SSR += np.sum((T_ave - output['S'])**2)
     SSR += np.sum((I_ave - output['I'])**2)
     SSR += np.sum((D_ave - output['R'])**2)
+
+    plt.plot(time, T_ave)
+    plt.plot(time, output['S'])
+
+    plt.plot(time, I_ave)
+    plt.plot(time, output['I'])
+
+    plt.plot(time, D_ave)
+    plt.plot(time, output['R'])
+    plt.show()
 
     print(params0)
     print(SSR)
