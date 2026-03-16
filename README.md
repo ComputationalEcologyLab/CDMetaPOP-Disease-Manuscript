@@ -53,23 +53,68 @@ renv::restore()
 ## Figure 1
 
 >[!Important]
+> Follow the instructions in [Software Install](#software-install), for python
 > Begin with this repo as your working directory
 
 To recreate Figure 1:
-- Navigate to the Figure1 folder within Figure_Reproduction.
+- Navigate to the Figure1 directory within Figure_Reproduction.
     - ``` cd Figure_Reproduction/Figure1``` 
 - run
     - ``` python Fig_1_from_data.py ```
 
+The image for figure 1 (Figure_1.png) will be created in the images directory with in Figure1.
+
+To reproduce Figure1:
+
 ## Figure 2
+
+>[!Important]
+> Follow the instructions in [Software Install](#software-install), for python
+> Begin with this repo as your working directory
+
+To recreate Figure 2:
+- Navigate to the Figure2 directory within Figure_Reproduction.
+    - ``` cd Figure_Reproduction/Figure2``` 
+- run
+    - ``` python Fig_2_from_data.py ```
+
+The image for figure 2 (Figure_2.png) will be created in the images directory with in Figure2.
+
+To reproduce Figure2:
 
 ## Figure 3
 
+>[!Important]
+> Follow the instructions in [Software Install](#software-install), for python
+> Begin with this repo as your working directory
+
+To recreate Figure 3:
+- Navigate to the Figure3 directory within Figure_Reproduction.
+    - ``` cd Figure_Reproduction/Figure3``` 
+- run
+    - ``` python Fig_3_from_data.py ```
+
+The image for figure 3 (Figure_3.png) will be created in the images directory with in Figure3.
+
+To reproduce Figure3:
+
 ## Figure 4
+
+>[!Important]
+> Follow the instructions in [Software Install](#software-install), for R
+> Begin with this repo as your working directory
 
 ## Figure 5
 
+>[!Important]
+> Follow the instructions in [Software Install](#software-install), for R
+> Begin with this repo as your working directory
+
 ## Figure 6
+
+>[!Important]
+> Follow the instructions in [Software Install](#software-install), for R
+> Begin with this repo as your working directory
 
 
 
