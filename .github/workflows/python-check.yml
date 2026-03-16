@@ -41,17 +41,17 @@ jobs:
         pip list
 
     - name: Run Fig 1 Test
-      working-directory: ./Figure_Reproduction/Figure1
+      working-directory: ./Figures/Figure1
       run: |
         python Fig_1_from_data.py
 
     - name: Run Fig 2 Test
-      working-directory: ./Figure_Reproduction/Figure2
+      working-directory: ./Figures/Figure2
       run: |
         python Plot_CDMetaPOPFit.py
 
     - name: Run Fig 3 Test
-      working-directory: ./Figure_Reproduction/Figure3
+      working-directory: ./Figures/Figure3
       run: |
         python Plot_CDMetaPOPFit.py
 

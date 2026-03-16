@@ -3,23 +3,23 @@ from permetrics.regression import RegressionMetric
 
 model_configs = {
     "SIR": {
-        "base_path": r"../Figure_Reproduction/Figure1/Figure_1_summary_data/SIR",
+        "base_path": r"../Figures/Figure1/Figure_1_summary_data/SIR",
         "prefix": "run0batch0mc",
 
         "comps": ['S', 'I', 'R']
     },
     "SIRS": {
-        "base_path": r"../Figure_Reproduction/Figure1/Figure_1_summary_data/SIRS",
+        "base_path": r"../Figures/Figure1/Figure_1_summary_data/SIRS",
         "prefix": "run0batch0mc",
         "comps": ['S', 'I', 'R']
     },
     "SEIR": {
-        "base_path": r"../Figure_Reproduction/Figure1/Figure_1_summary_data/SEIR",
+        "base_path": r"../Figures/Figure1/Figure_1_summary_data/SEIR",
         "prefix": "run0batch0mc",
         "comps": ['S', 'E', 'I', 'R']
     },
     "SIRP": {
-        "base_path": r"../Figure_Reproduction/Figure1/Figure_1_summary_data/SIRP",
+        "base_path": r"../Figures/Figure1/Figure_1_summary_data/SIRP",
         "prefix": "run0batch0mc",
         "comps": ['S', 'I', 'R', 'P']
     }
