@@ -63,7 +63,7 @@ To recreate Figure 1:
 - run
     - ``` python Fig_1_from_data.py ```
 
-The image for figure 1 (Figure_1.png) will be created in the images directory with in [Figure1](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure1).
+The image for figure 1 (Figure_1.png) will be created in the *figure_outputs* directory with in [Figure1](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure1).
 
 #### Reproduction
 
@@ -82,7 +82,7 @@ To recreate Figure 2:
 - run
     - ``` python Fig_2_from_data.py ```
 
-The image for figure 2 (Figure_2.png) will be created in the images directory with in [Figure2](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure2).
+The image for figure 2 (Figure_2.png) will be created in the *figure_outputs* directory with in [Figure2](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure2).
 
 #### Reproduction
 
@@ -101,7 +101,7 @@ To recreate Figure 3:
 - run
     - ``` python Fig_3_from_data.py ```
 
-The image for figure 3 (Figure_3.png) will be created in the images directory with in [Figure3](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure3).
+The image for figure 3 (Figure_3.png) will be created in the *figure_outputs* directory with in [Figure3](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure3).
 
 #### Reproduction
 
@@ -121,7 +121,7 @@ To recreate Figure 4:
 - run in the console
     - ``` source("Fig_4_from_data.R") ```
 
-The image for figure 4 (Figure_4.png) will be created in the figure_outputs directory with in [Figure4](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure4).
+The image for figure 4 (Figure_4.png) will be created in the *figure_outputs* directory with in [Figure4](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure4).
 
 #### Reproduction
 
@@ -141,7 +141,7 @@ To recreate Figure 5:
 - run in the console
     - ``` source("Fig_5_from_data.R") ```
 
-The image for figure 5 (Figure_5.png) will be created in the figure_outputs directory with in [Figure5](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure5).
+The image for figure 5 (Figure_5.png) will be created in the *figure_outputs* directory with in [Figure5](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure5).
 
 #### Reproduction
 
@@ -161,7 +161,7 @@ To recreate Figure 6:
 - run in the console
     - ``` source("Fig_6_from_data.R") ```
 
-The image for figure 6 (Figure_6.png) will be created in the figure_outputs directory with in [Figure6](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure6).
+The image for figure 6 (Figure_6.png) will be created in the *figure_outputs* directory with in [Figure6](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figure_Reproduction/Figure6).
 
 #### Reproduction
 
