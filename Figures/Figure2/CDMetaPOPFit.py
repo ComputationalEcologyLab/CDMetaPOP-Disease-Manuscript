@@ -1,5 +1,3 @@
-#nohup bash -c 'python CDMetaPOPFit.py &'
-
 import numpy as np
 import matplotlib.pyplot as plt
 import os
@@ -12,6 +10,7 @@ import pandas as pd
 from scipy.stats import poisson
 import emcee
 import corner
+import shutil
 
 
 def order_of_magnitude(value):
@@ -127,14 +126,42 @@ def SSR(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
     gc.collect()
     return SSR
 
+def create_bestfit(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
 
-LocOfTM = r'/home/baylor/Documents/GitHub/Disease_Parameter_Estimation/NewFiles/OnePatch_SIR/otherfiles/disease/TransitionMatrix_SIR_SSR.csv'
+    dir_path = Path(r"Figure_2_from_source_data/bestfit/Bestfit_Data")
+    if dir_path.exists() and dir_path.is_dir():
+        shutil.rmtree(dir_path)
+    else:
+        "Nothing"
 
-LocOfsrc = r'/home/baylor/Documents/GitHub/Disease_Parameter_Estimation/src/'
+    output = CDMetaPOP(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
 
-LocOfRunVars = r'/home/baylor/Documents/GitHub/Disease_Parameter_Estimation/NewFiles/OnePatch_SIR/'
+    path = Path(LocOfOutput)
+    phrase = "output"
+    recent_folder = get_recent_folder(path, phrase)
 
-LocOfOutput = r'/home/baylor/Documents/GitHub/Disease_Parameter_Estimation/NewFiles/OnePatch_SIR/output/'
+    source = Path(LocOfOutput+recent_folder)
+    destination = Path(r"Figure_2_from_source_data/bestfit/")
+
+    if source.exists() and source.is_dir():
+        shutil.move(str(source), str(destination))
+    else:
+        print("Source directory not found.")
+        exit(0)
+
+    old_folder = Path(r"Figure_2_from_source_data/bestfit/"+recent_folder)
+    new_folder = Path(r"Figure_2_from_source_data/bestfit/"+"Bestfit_Data")
+    old_folder.rename(new_folder)
+
+    return
+
+LocOfTM = r'CDMetaPOP_inputs/otherfiles/disease/TransitionMatrix_SIR_SSR.csv'
+
+LocOfsrc = r'CDMetaPOP/'
+
+LocOfRunVars = r'CDMetaPOP_inputs/SIR/'
+
+LocOfOutput = r'CDMetaPOP_inputs/SIR/output/'
 
 
 filename = LocOfRunVars+'RunVars.csv'
@@ -199,12 +226,12 @@ Time_ave = Time[0][0]
 T_ave = Ux.mean(axis=0)[0]
 I_ave = Ix.mean(axis=0)[0]
 D_ave = Dx.mean(axis=0)[0]
-np.save("T_ave.npy", T_ave)
-np.save("I_ave.npy", I_ave)
-np.save("D_ave.npy", D_ave)
+np.save("Figure_2_from_source_data/bestfit/ODE_Data/T_ave.npy", T_ave)
+np.save("Figure_2_from_source_data/bestfit/ODE_Data/I_ave.npy", I_ave)
+np.save("Figure_2_from_source_data/bestfit/ODE_Data/D_ave.npy", D_ave)
 
 # Fitting #####################################
-test_params = [0.51457746, 0.20896594]#np.random.rand(2)
+test_params = np.random.rand(2)
 
 simplex = np.array([test_params, [test_params[0]*2.0, test_params[1]], [test_params[0], test_params[1]*2.0]]) 
 res = minimize(SSR, x0=test_params, args=(LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput), method="Nelder-Mead", options={'initial_simplex': simplex, 'xatol': 1e-4})
@@ -213,12 +240,16 @@ np.save("res.npy", res)
 print("ODE values")
 print(params0)
 print(res.x)
+with open(r"Figure_2_from_source_data/bestfit/bestfit_values.txt", w) as outfile:
+    print(params0,file=outfile)
+    print(res.x,file=outfile)
 print("\n")
 print("DONE")
 
+# Create bestfit simulation
+create_bestfit(res.x, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
 
 # MCMC
-
 def log_likelihood(params, t, T_ave, I_ave, D_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
     """
     Calculates how well the model fits the data.
@@ -257,8 +288,8 @@ nwalkers = 16
 nsteps = 200
 ndim = 2
 
-#initial_guess = res.x 
-#pos = initial_guess + 1e-4 * np.random.randn(nwalkers, ndim)
+initial_guess = res.x 
+pos = initial_guess + 1e-4 * np.random.randn(nwalkers, ndim)
 
 print("Starting MCMC")
 
@@ -269,30 +300,161 @@ sampler = emcee.EnsembleSampler(
     args=(time, T_ave, I_ave, D_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
 )
 
-## Run the MCMC
-#sampler.run_mcmc(pos, nsteps, progress=True)
-#np.save("mcmc_sampler.npy", sampler)
-sampler = np.load(r"../mcmc/mcmc_sampler.npy", allow_pickle=True).item()
+# Run the MCMC
+sampler.run_mcmc(pos, nsteps, progress=True)
+np.save(r"Figure_2_from_source_data/mcmc_sampler.npy", sampler)
 
-#try:
-#    tau = 2*int(np.nanmax(sampler.get_autocorr_time()))
-#except ValueError:
-#    tau = nsteps/2.0
-#print(tau)
-
-## Discard 100 steps for burn-in
+# Discard 100 steps for burn-in
 flat_samples = sampler.get_chain(discard=100, thin=10, flat=True)
-np.save("flat_samples.npy", flat_samples)
 
 print("\n--- Parameter Estimation Results ---")
 labels = ["p1", "p2"]
-for i in range(ndim):
-    mcmc = np.percentile(flat_samples[:, i], [16, 50, 84])
-    q = np.diff(mcmc)
-    print(f"{labels[i]}: {mcmc[1]:.4f} (+{q[1]:.4f} / -{q[0]:.4f})")
+with open(r"Figure_2_from_source_data/uncertainty_values.txt", w) as outfile:
+    for i in range(ndim):
+        mcmc = np.percentile(flat_samples[:, i], [16, 50, 84])
+        q = np.diff(mcmc)
+        print(f"{labels[i]}: {mcmc[1]:.4f} (+{q[1]:.4f} / -{q[0]:.4f})")
+
+# CI
+runtime = 50
+num_sims = 100
+time = np.linspace(0, runtime, runtime)
+
+folder_path = Path(r'../NewFiles/OnePatch_SIR/output/')
+
+# List only the directories (folders)
+folders = [f.name for f in folder_path.iterdir() if f.is_dir()]
+
+S_trajectories = np.zeros((len(folders), runtime))
+I_trajectories = np.zeros((len(folders), runtime))
+R_trajectories = np.zeros((len(folders), runtime))
+for i, folder_name in enumerate(folders):
+
+    base_path = os.path.join(folder_path,folder_name)
+    prefix = 'run0batch0mc'
+    comps = ['S', 'I', 'R']
+    means, all_data = load_fixed_simulation_data(base_path, prefix, comps, env=True)
+
+    S_trajectories[i, :] = means['S']
+    I_trajectories[i, :] = means['I']
+    R_trajectories[i, :] = means['R']
+
+np.save(r"Figure_2_from_source_data/S_trajectories.npy", S_trajectories)
+np.save(r"Figure_2_from_source_data/I_trajectories.npy", I_trajectories)
+np.save(r"Figure_2_from_source_data/R_trajectories.npy", R_trajectories)
 
 
-# Plots
+
+
+
+# Plot ###############################################################
+
+output_dir = Path(r"figure_outputs/from_source")
+output_dir.mkdir(parents=True, exist_ok=True)
+
+# Comparison ###############################################
+
+sub_label = ['a', 'b', 'c', 'd']
+
+plt.rcParams['axes.labelsize'] = 35
+plt.rcParams['xtick.labelsize'] = 21
+plt.rcParams['ytick.labelsize'] = 21
+plt.rcParams['legend.fontsize'] = 26
+label_size = 35
+
+runtime = 50
+num_sims = 100
+time = np.linspace(0, runtime, runtime)
+base_path = r"Figure_2_from_source_data/bestfit/Bestfit_Data/"
+prefix = 'run0batch0mc'
+comps = ['S', 'I', 'R']
+means, all_data = load_fixed_simulation_data(base_path, prefix, comps, env=True)
+
+T_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/T_ave.npy")
+I_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/I_ave.npy")
+D_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/D_ave.npy")
+
+fig = plt.figure(figsize=(10, 10))
+
+plt.plot(time, T_ave, "-", color='#56B4E9', label="S: ODE")
+plt.plot(time, I_ave, "-", color='#D55E00', label="I: ODE")
+plt.plot(time, D_ave, "-", color='#009E73', label="R: ODE")
+
+plt.plot(time, means[comps[0]], color='#56B4E9', linestyle='--', label="S: Best Fit")
+plt.plot(time, means[comps[1]], color='#D55E00', linestyle='--', label="I: Best Fit")
+plt.plot(time, means[comps[2]], color='#009E73', linestyle='--', label="R: Best Fit")
+
+for line in all_data[comps[0]]:
+    plt.plot(time, line, color='#56B4E9', linestyle='--', alpha=0.1, linewidth=0.5)
+for line in all_data[comps[1]]:
+    plt.plot(time, line, color='#D55E00', linestyle='--', alpha=0.1, linewidth=0.5)
+for line in all_data[comps[2]]:
+    plt.plot(time, line, color='#009E73', linestyle='--', alpha=0.1, linewidth=0.5)
+
+plt.text(0.02, 0.94, f"({sub_label[0]})", transform=fig.transFigure, fontsize=label_size, fontweight='bold')
+plt.ylim(0,100)
+plt.grid(True)
+plt.xlabel("Year")
+plt.ylabel("Population size")
+plt.legend()
+plt.tight_layout()
+plt.savefig("figure_outputs/from_source/bestfit.png")
+plt.close()
+
+############# CI
+S_trajectories = np.load("Figure_2_from_source_data/S_trajectories.npy")
+I_trajectories = np.load("Figure_2_from_source_data/I_trajectories.npy")
+R_trajectories = np.load("Figure_2_from_source_data/R_trajectories.npy")
+
+Ulower_bound = np.percentile(S_trajectories, 2.5, axis=0)
+Uupper_bound = np.percentile(S_trajectories, 97.5, axis=0)
+Umedian = np.percentile(S_trajectories, 50, axis=0)
+
+Ilower_bound = np.percentile(I_trajectories, 2.5, axis=0)
+Iupper_bound = np.percentile(I_trajectories, 97.5, axis=0)
+Imedian = np.percentile(I_trajectories, 50, axis=0)
+
+Rlower_bound = np.percentile(R_trajectories, 2.5, axis=0)
+Rupper_bound = np.percentile(R_trajectories, 97.5, axis=0)
+Rmedian = np.percentile(R_trajectories, 50, axis=0)
+
+
+# 3. Create the Plot
+plt.figure(figsize=(10, 10))
+
+plt.fill_between(time, Ulower_bound, Uupper_bound, color='#56B4E9', alpha=0.2)
+plt.plot(time, Umedian, color='#56B4E9', linestyle='--', label='S: MCMC')
+
+plt.fill_between(time, Ilower_bound, Iupper_bound, color='#D55E00', alpha=0.2)
+plt.plot(time, Imedian, color='#D55E00', linestyle='--', label='I: MCMC')
+
+plt.fill_between(time, Rlower_bound, Rupper_bound, color='#009E73', alpha=0.2)
+plt.plot(time, Rmedian, color='#009E73', linestyle='--', label='R: MCMC')
+
+
+T_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/T_ave.npy")
+I_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/I_ave.npy")
+D_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/D_ave.npy")
+plt.plot(time, T_ave, color='#56B4E9', label='S: ODE')
+plt.plot(time, I_ave, color='#D55E00', label='I: ODE')
+plt.plot(time, D_ave, color='#009E73', label='R: ODE')
+
+plt.text(0.02, 0.94, f"({sub_label[3]})", transform=fig.transFigure, fontsize=label_size, fontweight='bold')
+plt.ylim(0,100)
+plt.grid(True)
+plt.xlabel('Year')
+plt.ylabel('Population Size')
+plt.legend()
+plt.tight_layout()
+plt.savefig("figure_outputs/from_source/CI")
+plt.close()
+
+######################################################3
+sampler = np.load(r"Figure_2_from_source_data/mcmc_sampler.npy", allow_pickle=True).item()
+flat_samples = sampler.get_chain(discard=100, thin=10, flat=True)
+
+labels = [r"$\beta$", r"$\gamma$"]
+ndim = len(labels)
 
 fig = corner.corner(
     flat_samples, 
@@ -302,116 +464,67 @@ fig = corner.corner(
     show_titles=True,
     plot_datapoints=True,
     smooth=0.75,
+    title_kwargs={"fontsize": 26},
+    fig=plt.figure(figsize=(10, 10))
 )
-plt.show()
+axes = np.array(fig.axes).reshape((ndim, ndim))
+org_truth = [0.5, 0.2]
+for i in range(ndim):
+    for j in range(i + 1):
+        ax = axes[i, j]
+        ax.axvline(org_truth[j], color="red", linestyle="--", lw=1.5)
+        if i > j:
+            ax.axhline(org_truth[i], color="red", linestyle="--", lw=1.5)
+            ax.plot(org_truth[j], org_truth[i], marker="s", color="red")
+plt.legend(
+    [plt.Line2D([0], [0]), 
+     plt.Line2D([0], [0], color='red', linestyle='--'),
+     plt.Line2D([0], [0], color='black', linestyle='--')],
+    ['Best Fit', 'ODE Value', 'Quantiles'],
+    bbox_to_anchor=(1, ndim), loc='upper right'
+)
 
-#samples = sampler.get_chain()
-#np.save("samples.npy", samples)
-
-#fig, axes = plt.subplots(2, figsize=(10, 6), sharex=True)
-#labels = ["p1", "p2"]
-
-#for i in range(2):
-#    ax = axes[i]
-#    # Plotting all walkers at once with low alpha (transparency)
-#    ax.plot(samples[:, :, i], "k", alpha=0.3)
-#    ax.set_xlim(0, len(samples))
-#    ax.set_ylabel(labels[i])
-#    ax.yaxis.set_label_coords(-0.1, 0.5)
-
-#axes[-1].set_xlabel("Step Number")
-#plt.tight_layout()
-#plt.show()
-
-############### CI
-##from pathlib import Path
-
-### Set the path to your main folder
-##folder_path = Path(r'/home/baylor/Documents/GitHub/Disease_Parameter_Estimation/NewFiles/OnePatch_SIR/output/')
-
-### List only the directories (folders)
-##folders = [f.name for f in folder_path.iterdir() if f.is_dir()]
-
-##all_trajectories = []
-##for folder_name in folders:
-
-##    base_path = LocOfOutput+folder_name
-##    prefix = 'run0batch0mc'
-##    comps = ['S', 'I', 'R']
-##    means, all_data = load_fixed_simulation_data(base_path, prefix, comps, env=True)
-
-
-##    all_trajectories.append(means['S'])
-
-
-##all_trajectories = np.array(all_trajectories)
-
-##Ulower_bound = np.percentile(all_trajectories, 2.5, axis=0)
-##Uupper_bound = np.percentile(all_trajectories, 97.5, axis=0)
-##Umedian = np.percentile(all_trajectories, 50, axis=0)
-
-### 3. Create the Plot
-##plt.figure(figsize=(10, 6))
-
-### Plot the 95% Shaded Area
-##plt.fill_between(time, Ulower_bound, Uupper_bound, 
-##                 color="blue", alpha=0.2, label='95% Credible Interval (MCMC)')
-
-### Plot the Median (The most "likely" path)
-##plt.plot(time, Umedian, color="blue", label='MCMC Median', linewidth=2)
-
-### Overlay your actual observed data points
-##plt.scatter(time, T_ave, color="black", s=15, label='Observed Data', zorder=5)
-
-##plt.xlabel('Time Step')
-##plt.ylabel('Population Count')
-##plt.title('Disease Model Uncertainty (From Saved Simulations)')
-##plt.legend()
-##plt.show()
-
-
-
-## Comparison ###############################################
-#T_ave = np.load("T_ave.npy")
-#I_ave = np.load("I_ave.npy")
-#D_ave = np.load("D_ave.npy")
-## Get new data folder
-#path = Path(LocOfOutput)
-#phrase = "output"
-#recent_folder = get_recent_folder(path, phrase)
-
-## Create data from CDMetaPOP runs
-#base_path = LocOfOutput+recent_folder
-#prefix = 'run0batch0mc'
-#comps = ['S', 'I', 'R']
-#means, all_data = load_fixed_simulation_data(base_path, prefix, comps, env=True)
-
-
-#plt.plot(time, T_ave, "-", color='#56B4E9', label="ODE: S")
-#plt.plot(time, I_ave, "-", color='#D55E00', label="ODE: I")
-#plt.plot(time, D_ave, "-", color='#009E73', label="ODE: R")
-
-#plt.plot(time, means[comps[0]], color='#56B4E9', linestyle='--', label="CDMetaPOP: S")
-#plt.plot(time, means[comps[1]], color='#D55E00', linestyle='--', label="CDMetaPOP: I")
-#plt.plot(time, means[comps[2]], color='#009E73', linestyle='--', label="CDMetaPOP: R")
-
-
-##for line in all_data[comps[0]]:
-##    plt.plot(time, line, color='#56B4E9', linestyle='--', alpha=0.1, linewidth=0.5)
-##for line in all_data[comps[1]]:
-##    plt.plot(time, line, color='#D55E00', linestyle='--', alpha=0.1, linewidth=0.5)
-##for line in all_data[comps[2]]:
-##    plt.plot(time, line, color='#009E73', linestyle='--', alpha=0.1, linewidth=0.5)
-
-#plt.grid(True)
-#plt.xlabel("Year", fontsize=16, y=0.03)
-#plt.ylabel("Population size", fontsize=16)
-#plt.legend()
-#plt.show()
+axes[0,0].text(0.02, 0.94, f"({sub_label[1]})", transform=fig.transFigure, fontsize=label_size, fontweight='bold')
+plt.savefig("figure_outputs/from_source/corner.png")
+plt.close()
 
 
 
 
+#####################################################################
+samples = sampler.get_chain()
+fig, axs = plt.subplots(2, figsize=(10, 10), sharex=True)
+
+axs[0].plot(samples[:, :, 0], "k", alpha=0.3)
+axs[0].set_ylabel(labels[0])
+
+axs[1].plot(samples[:, :, 1], "k", alpha=0.3)
+axs[1].set_ylabel(labels[1])
+
+axs[0].text(0.02, 0.94, f"({sub_label[2]})", transform=fig.transFigure, fontsize=label_size, fontweight='bold')
+plt.xlabel("Number of Iterations")
+plt.tight_layout()
+plt.savefig("figure_outputs/from_source/walker.png")
+plt.close()
+
+
+#############################################
+import matplotlib.image as mpimg
+
+fig, axs = plt.subplots(2, 2, figsize=(20, 20))
+
+axs[0, 0].imshow(mpimg.imread("figure_outputs/from_source/bestfit.png"))
+axs[0, 0].axis('off')
+axs[0, 1].imshow(mpimg.imread("figure_outputs/from_source/corner.png"))
+axs[0, 1].axis('off')
+axs[1, 0].imshow(mpimg.imread("figure_outputs/from_source/walker.png"))
+axs[1, 0].axis('off')
+axs[1, 1].imshow(mpimg.imread("figure_outputs/from_source/CI.png"))
+axs[1, 1].axis('off')
+
+plt.tight_layout()
+plt.savefig("figure_outputs/from_source/Figure_2.png")
+plt.close()
 
 
 

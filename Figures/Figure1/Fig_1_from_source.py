@@ -317,23 +317,23 @@ def load_fixed_simulation_data(base_path, folder_prefix, compartments, env=False
 
 model_configs = {
     "SIR": {
-        "base_path": r"Figure_1_summary_data/SIR",
+        "base_path": r"Figure_1_from_source_data/SIR",
         "prefix": "run0batch0mc",
 
         "comps": ['S', 'I', 'R']
     },
     "SIRS": {
-        "base_path": r"Figure_1_summary_data/SIRS",
+        "base_path": r"Figure_1_from_source_data/SIRS",
         "prefix": "run0batch0mc",
         "comps": ['S', 'I', 'R']
     },
     "SEIR": {
-        "base_path": r"Figure_1_summary_data/SEIR",
+        "base_path": r"Figure_1_from_source_data/SEIR",
         "prefix": "run0batch0mc",
         "comps": ['S', 'E', 'I', 'R']
     },
     "SIRP": {
-        "base_path": r"Figure_1_summary_data/SIRP",
+        "base_path": r"Figure_1_from_source_data/SIRP",
         "prefix": "run0batch0mc",
         "comps": ['S', 'I', 'R', 'P']
     }

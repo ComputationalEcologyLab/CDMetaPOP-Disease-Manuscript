@@ -104,9 +104,10 @@ Once the simulations are completed:
 - Move the renamed folder to *Figures/Figure1/Figure_1_from_source_data/*
 
 After all the data has been added to *Figures/Figure1/Figure_1_from_source_data/*. 
-Navigate to [Figure1](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure1).
-- ``` cd Figures/FigureX``` 
-- run: ``` python Fig_1_from_source.py ```
+- Navigate to [Figure1](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure1).
+    - ``` cd Figures/Figure1``` 
+- run
+    -``` python Fig_1_from_source.py ```
 
 
 ### Figure 2
