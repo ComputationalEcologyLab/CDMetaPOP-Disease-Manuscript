@@ -73,7 +73,7 @@ ggsave(filename = paste0(output_dir, "/Figure_5.png"),
 # Spatial spread GIF (supplemental)---------------------------------------------
 
 # Read in data
-Fig_5_supplemental_data<- readRDS(paste0(input_dir, "/Fig_5_supplemental_data.Rds"))
+Fig_5_supplemental_data<- readRDS(paste0(input_dir, "/Fig_5_supplemental_data_gzipped.Rds"))
 
 # Get map outlines
 countries <- ne_countries(scale = "medium", returnclass = "sf")
