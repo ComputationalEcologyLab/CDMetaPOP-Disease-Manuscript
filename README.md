@@ -58,7 +58,7 @@ renv::restore()
 - Navigate to the desired directory within [Figures](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures), either [Figure1](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure1), [Figure2](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure2), or [Figure3](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure3).
     - ``` cd Figures/FigureX``` 
 - run
-    - ``` python Fig_X_from_data.py ```
+    - ``` python Figure_X_from_data.py ```
 
 The image for figure X (Figure_X.png) will be created in the *figure_outputs* directory within *FigureX*.
 
@@ -70,7 +70,7 @@ The image for figure X (Figure_X.png) will be created in the *figure_outputs* di
 - Navigate to the desired directory within [Figures](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures), either [Figure4](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure4), [Figure5](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure5), or [Figure6](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure6).
     - ``` setwd("Figures/FigureX") ``` 
 - run in the console
-    - ``` source("Fig_X_from_data.R") ```
+    - ``` source("Figure_X_from_data.R") ```
 
 The image for figure X (Figure_X.png) will be created in the *figure_outputs* directory with in *FigureX*.
 
@@ -107,7 +107,7 @@ After all the data has been added to *Figures/Figure1/Figure_1_from_source_data/
 - Navigate to [Figure1](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure1).
     - ``` cd Figures/Figure1``` 
 - run
-    -``` python Fig_1_from_source.py ```
+    -``` python Figure_1_from_source.py ```
 
 The image for figure 1 (Figure_1.png) will be created in the *figure_outputs/from_source* directory with in [Figure1](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure1).
 
@@ -117,7 +117,7 @@ The image for figure 1 (Figure_1.png) will be created in the *figure_outputs/fro
 > ~35 GB will be needed to store the data for this figure
 
 To reproduce the data for figure 2 run:
-- ``` python Fig_2_from_source.py ```
+- ``` python Figure_2_from_source.py ```
 
 The image for figure 1 (Figure_1.png) will be created in the *figure_outputs/from_source* directory with in [Figure2](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure2).
 
@@ -127,7 +127,7 @@ The image for figure 1 (Figure_1.png) will be created in the *figure_outputs/fro
 > ~35 GB will be needed to store the data for this figure
 
 To reproduce the data for figure 3 run:
-- ``` python Fig_3_from_source.py ```
+- ``` python Figure_3_from_source.py ```
 
 The image for figure 3 (Figure_3.png) will be created in the *figure_outputs/from_source* directory with in [Figure3](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure3).
 
@@ -148,7 +148,7 @@ After the data has been added to *Figures/Figure4/Figure_4_from_source_data/*.
 - Navigate to [Figure4](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure1).
     - ``` setwd("Figures/Figure4") ``` 
 - run
-    -``` source("Fig_4_from_source.R") ```
+    -``` source("Figure_4_from_source.R") ```
 
 The image for figure 4 (Figure_4.png) will be created in the *figure_outputs/from_source* directory with in [Figure4](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure4). 
 
@@ -173,14 +173,14 @@ After the data has been added to either *Figures/Figure5/Figure_5_from_source_da
     - Navigate to the [Figure5](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure5).
         - ``` setwd("Figures/Figure5") ``` 
     - run
-        -``` source("Fig_5_from_source.R") ```
+        -``` source("Figure_5_from_source.R") ```
 
     The image for figure 5 (Figure_5.png) will be created in the *figure_outputs/from_source* directory with in [Figure5](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure5). 
 - For figure 6:
     - Navigate to the [Figure6](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure5).
         - ``` setwd("Figures/Figure6") ``` 
     - run
-        -``` source("Fig_6_from_source.R") ```
+        -``` source("Figure_6_from_source.R") ```
 
     The image for figure 6 (Figure_6.png) will be created in the *figure_outputs/from_source* directory with in [Figure6](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure6). 
 

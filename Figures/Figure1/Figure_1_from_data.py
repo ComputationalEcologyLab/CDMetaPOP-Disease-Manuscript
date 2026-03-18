@@ -84,7 +84,7 @@ fig.legend(color_legend + style_legend,
 fig.supxlabel("Year", fontsize=16, y=0.03)
 fig.supylabel("Population size", fontsize=16)
 plt.tight_layout(rect=[0, 0.05, 1, 0.93])
-plt.savefig("figure_outputs/Figure_1.png")
+plt.savefig("Figure_outputs/Figure_1.png")
 plt.close()
 
 

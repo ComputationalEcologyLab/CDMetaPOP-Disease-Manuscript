@@ -1,4 +1,4 @@
-# Code to replicate figure 3 and supplemental gifs after running CDMetaPOP
+# Code to replicate figure 5 and supplemental gifs after running CDMetaPOP
 # Disease spread of the Myotis velifer spatial example metapopulation following disease introduction
 
 # Set-up -----------------------------------------------------------------
@@ -12,13 +12,13 @@ library(rnaturalearth)
 library(rnaturalearthdata)
 
 # Set base directory where the input summary Rds and points files are stored
-input_dir <- "Fig5_summary_data"
+input_dir <- "Figure_5_summary_data"
 
 # Define where figure outputs should go
-output_dir <- "figure_outputs"
+output_dir <- "Figure_outputs"
 
 # Define batches
-# For Fig 6 we ran CDMetaPop for 4 scenarios:
+# For Fig 5 we ran CDMetaPop for 4 scenarios:
 #   0 = Neutral
 #   1 = Resistance
 #   2 = Tolerance

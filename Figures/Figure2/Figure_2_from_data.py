@@ -1,16 +1,8 @@
-#nohup bash -c 'python CDMetaPOPFit.py &'
-
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-import gc
-from scipy.optimize import minimize, approx_fprime
-from scipy.integrate import odeint
-import re
 from pathlib import Path
 import pandas as pd
-from scipy.stats import poisson
-import emcee
 import corner
 
 def load_fixed_simulation_data(base_path, folder_prefix, compartments, env=False):
@@ -96,14 +88,14 @@ label_size = 35
 runtime = 50
 num_sims = 100
 time = np.linspace(0, runtime, runtime)
-base_path = r"Figure_3_summary_data/bestfit/Bestfit_Data/"
+base_path = r"Figure_2_summary_data/bestfit/Bestfit_Data/"
 prefix = 'run0batch0mc'
 comps = ['S', 'I', 'R']
 means, all_data = load_fixed_simulation_data(base_path, prefix, comps, env=True)
 
-T_ave = np.load(r"Figure_3_summary_data/bestfit/ODE_Data/T_ave.npy")
-I_ave = np.load(r"Figure_3_summary_data/bestfit/ODE_Data/I_ave.npy")
-D_ave = np.load(r"Figure_3_summary_data/bestfit/ODE_Data/D_ave.npy")
+T_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/T_ave.npy")
+I_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/I_ave.npy")
+D_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/D_ave.npy")
 
 fig = plt.figure(figsize=(10, 10))
 
@@ -129,13 +121,13 @@ plt.xlabel("Year")
 plt.ylabel("Population size")
 plt.legend()
 plt.tight_layout()
-plt.savefig("figure_outputs/bestfit.png")
+plt.savefig("Figure_outputs/bestfit.png")
 plt.close()
 
 ############# CI
-S_trajectories = np.load("Figure_3_summary_data/S_trajectories.npy")
-I_trajectories = np.load("Figure_3_summary_data/I_trajectories.npy")
-R_trajectories = np.load("Figure_3_summary_data/R_trajectories.npy")
+S_trajectories = np.load("Figure_2_summary_data/S_trajectories.npy")
+I_trajectories = np.load("Figure_2_summary_data/I_trajectories.npy")
+R_trajectories = np.load("Figure_2_summary_data/R_trajectories.npy")
 
 Ulower_bound = np.percentile(S_trajectories, 2.5, axis=0)
 Uupper_bound = np.percentile(S_trajectories, 97.5, axis=0)
@@ -163,9 +155,9 @@ plt.fill_between(time, Rlower_bound, Rupper_bound, color='#009E73', alpha=0.2)
 plt.plot(time, Rmedian, color='#009E73', linestyle='--', label='R: MCMC')
 
 
-T_ave = np.load(r"Figure_3_summary_data/bestfit/ODE_Data/T_ave.npy")
-I_ave = np.load(r"Figure_3_summary_data/bestfit/ODE_Data/I_ave.npy")
-D_ave = np.load(r"Figure_3_summary_data/bestfit/ODE_Data/D_ave.npy")
+T_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/T_ave.npy")
+I_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/I_ave.npy")
+D_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/D_ave.npy")
 plt.plot(time, T_ave, color='#56B4E9', label='S: ODE')
 plt.plot(time, I_ave, color='#D55E00', label='I: ODE')
 plt.plot(time, D_ave, color='#009E73', label='R: ODE')
@@ -177,20 +169,20 @@ plt.xlabel('Year')
 plt.ylabel('Population Size')
 plt.legend()
 plt.tight_layout()
-plt.savefig("figure_outputs/CI")
+plt.savefig("Figure_outputs/CI")
 plt.close()
 
 ######################################################3
-sampler = np.load(r"Figure_3_summary_data/mcmc_sampler.npy", allow_pickle=True).item()
+sampler = np.load(r"Figure_2_summary_data/mcmc_sampler.npy", allow_pickle=True).item()
 flat_samples = sampler.get_chain(discard=100, thin=10, flat=True)
 
-labels = [r"$\beta$", r"$\gamma$", r"$\phi$"]
+labels = [r"$\beta$", r"$\gamma$"]
 ndim = len(labels)
 
 fig = corner.corner(
     flat_samples, 
     labels=labels, 
-    truths=[0.54985047, 0.22113357, 0.21202528],
+    truths=[0.51457746, 0.20896594],
     quantiles=[0.16, 0.5, 0.84],
     show_titles=True,
     plot_datapoints=True,
@@ -199,7 +191,7 @@ fig = corner.corner(
     fig=plt.figure(figsize=(10, 10))
 )
 axes = np.array(fig.axes).reshape((ndim, ndim))
-org_truth = [0.5, 0.2, 0.2]
+org_truth = [0.5, 0.2]
 for i in range(ndim):
     for j in range(i + 1):
         ax = axes[i, j]
@@ -216,7 +208,7 @@ plt.legend(
 )
 
 axes[0,0].text(0.02, 0.94, f"({sub_label[1]})", transform=fig.transFigure, fontsize=label_size, fontweight='bold')
-plt.savefig("figure_outputs/corner.png")
+plt.savefig("Figure_outputs/corner.png")
 plt.close()
 
 
@@ -224,7 +216,7 @@ plt.close()
 
 #####################################################################
 samples = sampler.get_chain()
-fig, axs = plt.subplots(3, figsize=(10, 10), sharex=True)
+fig, axs = plt.subplots(2, figsize=(10, 10), sharex=True)
 
 axs[0].plot(samples[:, :, 0], "k", alpha=0.3)
 axs[0].set_ylabel(labels[0])
@@ -232,13 +224,10 @@ axs[0].set_ylabel(labels[0])
 axs[1].plot(samples[:, :, 1], "k", alpha=0.3)
 axs[1].set_ylabel(labels[1])
 
-axs[2].plot(samples[:, :, 2], "k", alpha=0.3)
-axs[2].set_ylabel(labels[2])
-
 axs[0].text(0.02, 0.94, f"({sub_label[2]})", transform=fig.transFigure, fontsize=label_size, fontweight='bold')
 plt.xlabel("Number of Iterations")
 plt.tight_layout()
-plt.savefig("figure_outputs/walker.png")
+plt.savefig("Figure_outputs/walker.png")
 plt.close()
 
 
@@ -247,17 +236,17 @@ import matplotlib.image as mpimg
 
 fig, axs = plt.subplots(2, 2, figsize=(20, 20))
 
-axs[0, 0].imshow(mpimg.imread("figure_outputs/bestfit.png"))
+axs[0, 0].imshow(mpimg.imread("Figure_outputs/bestfit.png"))
 axs[0, 0].axis('off')
-axs[0, 1].imshow(mpimg.imread("figure_outputs/corner.png"))
+axs[0, 1].imshow(mpimg.imread("Figure_outputs/corner.png"))
 axs[0, 1].axis('off')
-axs[1, 0].imshow(mpimg.imread("figure_outputs/walker.png"))
+axs[1, 0].imshow(mpimg.imread("Figure_outputs/walker.png"))
 axs[1, 0].axis('off')
-axs[1, 1].imshow(mpimg.imread("figure_outputs/CI.png"))
+axs[1, 1].imshow(mpimg.imread("Figure_outputs/CI.png"))
 axs[1, 1].axis('off')
 
 plt.tight_layout()
-plt.savefig("figure_outputs/Figure_3.png")
+plt.savefig("Figure_outputs/Figure_2.png")
 plt.close()
 
 

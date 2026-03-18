@@ -1,4 +1,4 @@
-# Code to replicate figure 2 from provided RDS data files
+# Code to replicate figure 4 from provided RDS data files
 # Population dynamics and allele frequencies of the Myotis velifer aspatial example following disease introduction
 
 # Set-up -----------------------------------------------------------------
@@ -6,10 +6,10 @@ library(tidyverse)
 library(ggplot2)
 
 # Set base directory where the input summary Rds files are stored
-input_dir <- "Fig4_summary_data"
+input_dir <- "Figure_4_summary_data"
 
 # Define where figure outputs should go
-output_dir <- "figure_outputs"
+output_dir <- "Figure_outputs"
 
 
 # SIRD Pop Size (Fig 4a) ----------------------------------------------------

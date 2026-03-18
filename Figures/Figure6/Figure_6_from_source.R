@@ -1,4 +1,4 @@
-# Code to replicate figure 4 after running CDMetaPOP
+# Code to replicate figure 6 after running CDMetaPOP
 # Population dynamics and allele frequencies of the Myotis velifer spatial example metapopulation following disease introduction
 # Note that particularly the summarizing step for plotting allele frequencies 
 #   can take a long time, so when possible, it helps to run on an HPC cluster or high performance machine
@@ -11,10 +11,10 @@ library(ggplot2)
 
 # Set base directory where the CDMetaPop raw output files are stored
 # This should contain directories named run0batch0mc0species0, run0batch0mc1species0, etc
-base_dir_spatial <- "../Figure5/Fig5_from _source_data/Spatial_inputs"
+base_dir_spatial <- "../Figure5/Figure_5_from _source_data/Spatial_inputs"
 
 # Define where figure outputs should go
-output_dir <- "figure_outputs"
+output_dir <- "Figure_outputs"
 
 # For Fig 6 we ran CDMetaPop for 4 scenarios:
 #   0 = Neutral
@@ -233,8 +233,8 @@ ggsave(
 
 library(patchwork)
 
-png(filename = paste0(output_dir, "/fig6_combined.png"),
+png(filename = paste0(output_dir, "/Figure_6.png"),
     width = 8, height = 9, units = "in", res = 300)
-SIDP_fig / Allele_Freq 
+print(SIDP_fig / Allele_Freq)
 dev.off()
 

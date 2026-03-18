@@ -1,4 +1,4 @@
-# Code to replicate figure 3 and supplemental gifs after running CDMetaPOP
+# Code to replicate figure 5 and supplemental gifs after running CDMetaPOP
 # Disease spread of the Myotis velifer spatial example metapopulation following disease introduction
 
 # Set-up -----------------------------------------------------------------
@@ -19,7 +19,7 @@ base_dir_spatial <- "Spatial_inputs"
 base_dir_points <- "Points_files"
 
 # Define where figure outputs should go
-output_dir <- "figure_outputs"
+output_dir <- "Figure_outputs"
 
 # Define batches
 # For Fig 6 we ran CDMetaPop for 4 scenarios:
