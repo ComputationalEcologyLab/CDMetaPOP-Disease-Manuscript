@@ -142,7 +142,7 @@ ggplot(plot_data) +
          size = guide_legend(title = "No. infected")) +
   theme_minimal(base_size = 12)
 
-ggsave(filename = paste0(output_dir, "/static_spread.png"), 
+ggsave(filename = paste0(output_dir, "/from_source/Figure_5.png"), 
        dpi = 300, width = 5, height = 4.5, units = "in", bg = "white")
 
 
@@ -254,7 +254,7 @@ for (batch in batch_nums_spatial) {
   
   # Animate and save
   anim_save(
-    filename = file.path(paste0(output_dir, "/batch_", batch, "_disease.gif")),
+    filename = file.path(paste0(output_dir, "/from_source/batch_", batch, "_disease.gif")),
     animation = 
       plot_obj,
     fps = 5
