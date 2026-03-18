@@ -1,3 +1,5 @@
+#nohup bash -c 'python CDMetaPOPFit_SIRS.py &'
+
 import numpy as np
 import matplotlib.pyplot as plt
 import os
@@ -11,7 +13,6 @@ from scipy.stats import poisson
 import emcee
 import corner
 import shutil
-
 
 def order_of_magnitude(value):
     if value == 0:
@@ -67,11 +68,13 @@ def load_fixed_simulation_data(base_path, folder_prefix, compartments, env=False
 
 def CDMetaPOP(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
 
+    print(params0)
     beta = params0[0]
     gamma = params0[1]
+    phi = params0[2]
 
     Transition_Matrix = [
-        [0.0,  0.0,  0.0],
+        [0.0,  0.0,  phi],
         [beta, 0.0,  0.0],
         [0.0,  gamma, 0.0],
     ]
@@ -110,25 +113,14 @@ def SSR(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
     SSR += np.sum((I_ave - output['I'])**2)
     SSR += np.sum((D_ave - output['R'])**2)
 
-    plt.plot(time, T_ave)
-    plt.plot(time, output['S'])
-
-    plt.plot(time, I_ave)
-    plt.plot(time, output['I'])
-
-    plt.plot(time, D_ave)
-    plt.plot(time, output['R'])
-    plt.show()
-
     print(params0)
     print(SSR)
-    exit(0)
     gc.collect()
     return SSR
 
 def create_bestfit(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
 
-    dir_path = Path(r"Figure_2_from_source_data/bestfit/Bestfit_Data")
+    dir_path = Path(r"Figure_3_from_source_data/bestfit/Bestfit_Data")
     if dir_path.exists() and dir_path.is_dir():
         shutil.rmtree(dir_path)
     else:
@@ -141,7 +133,7 @@ def create_bestfit(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
     recent_folder = get_recent_folder(path, phrase)
 
     source = Path(LocOfOutput+recent_folder)
-    destination = Path(r"Figure_2_from_source_data/bestfit/")
+    destination = Path(r"Figure_3_from_source_data/bestfit/")
 
     if source.exists() and source.is_dir():
         shutil.move(str(source), str(destination))
@@ -149,19 +141,20 @@ def create_bestfit(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
         print("Source directory not found.")
         exit(0)
 
-    old_folder = Path(r"Figure_2_from_source_data/bestfit/"+recent_folder)
-    new_folder = Path(r"Figure_2_from_source_data/bestfit/"+"Bestfit_Data")
+    old_folder = Path(r"Figure_3_from_source_data/bestfit/"+recent_folder)
+    new_folder = Path(r"Figure_3_from_source_data/bestfit/"+"Bestfit_Data")
     old_folder.rename(new_folder)
 
     return
 
-LocOfTM = r'CDMetaPOP_inputs/otherfiles/disease/TransitionMatrix_SIR_SSR.csv'
+LocOfTM = r'CDMetaPOP_inputs/otherfiles/disease/TransitionMatrix_SIRS_SSR.csv'
 
 LocOfsrc = r'CDMetaPOP/'
 
-LocOfRunVars = r'CDMetaPOP_inputs/SIR/'
+LocOfRunVars = r'CDMetaPOP_inputs/SIRS/'
 
-LocOfOutput = r'CDMetaPOP_inputs/SIR/output/'
+
+LocOfOutput = r'CDMetaPOP_inputs/SIRS/output/'
 
 
 filename = LocOfRunVars+'RunVars.csv'
@@ -176,8 +169,9 @@ N = 100
 
 beta = 0.5
 gamma = 0.2
+phi = 0.2
 vital = 0.0
-params0 = [N, beta, gamma]
+params0 = [N, beta, gamma, phi]
 y0 = [N - 10, 10, 0]
 
 endtime = runtime
@@ -203,21 +197,25 @@ for i in range(n_simulations):
 
         Rate[0] = beta * (Ix[i][-1][-1] / N) * Ux[i][-1][-1]
         Rate[1] = gamma * Ix[i][-1][-1]
+        Rate[2] = phi * Dx[i][-1][-1]
 
         leap = tau
 
         uT  = np.random.random()
         uI  = np.random.random()
+        uR  = np.random.random()
         
         NT  = poisson.ppf(uT, Rate[0]*leap)
         NI  = poisson.ppf(uI, Rate[1]*leap)
+        NR  = poisson.ppf(uR, Rate[2]*tau)
 
         NT  = min(NT, Ux[i][-1][-1])
         NI  = min(NI, Ix[i][-1][-1])
+        NR  = min(NR, Dx[i][-1][-1])
 
-        Ux[i][0] = np.append(Ux[i][0], Ux[i][-1][-1] - NT)
+        Ux[i][0] = np.append(Ux[i][0], Ux[i][-1][-1] - NT + NR)
         Ix[i][0] = np.append(Ix[i][0], Ix[i][-1][-1] + NT - NI)
-        Dx[i][0] = np.append(Dx[i][0], Dx[i][-1][-1] + NI)
+        Dx[i][0] = np.append(Dx[i][0], Dx[i][-1][-1] + NI - NR)
 
         Time[i][0] = np.append(Time[i][0], Time[i][-1][-1] + leap)
         timetime = Time[i][-1][-1]
@@ -226,37 +224,36 @@ Time_ave = Time[0][0]
 T_ave = Ux.mean(axis=0)[0]
 I_ave = Ix.mean(axis=0)[0]
 D_ave = Dx.mean(axis=0)[0]
-np.save("Figure_2_from_source_data/bestfit/ODE_Data/T_ave.npy", T_ave)
-np.save("Figure_2_from_source_data/bestfit/ODE_Data/I_ave.npy", I_ave)
-np.save("Figure_2_from_source_data/bestfit/ODE_Data/D_ave.npy", D_ave)
+np.save("Figure_3_from_source_data/bestfit/ODE_Data/T_ave.npy", T_ave)
+np.save("Figure_3_from_source_data/bestfit/ODE_Data/I_ave.npy", I_ave)
+np.save("Figure_3_from_source_data/bestfit/ODE_Data/D_ave.npy", D_ave)
 
 # Fitting #####################################
-test_params = np.random.rand(2)
+test_params = np.random.rand(3)
 
-simplex = np.array([test_params, [test_params[0]*2.0, test_params[1]], [test_params[0], test_params[1]*2.0]]) 
-res = minimize(SSR, x0=test_params, args=(LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput), method="Nelder-Mead", options={'initial_simplex': simplex, 'xatol': 1e-4})
+simplex = np.array([test_params, [test_params[0]*2.0, test_params[1], test_params[2]], [test_params[0], test_params[1]*2.0, test_params[2]], [test_params[0], test_params[1], test_params[2]*2.0]]) 
+res = minimize(SSR, x0=test_params, args=(LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput), method="Nelder-Mead", options={'initial_simplex': simplex, 'xatol': 1e-3})
 np.save("res.npy", res)
 
 print("ODE values")
 print(params0)
 print(res.x)
-with open(r"Figure_2_from_source_data/bestfit/bestfit_values.txt", w) as outfile:
+with open(r"Figure_3_from_source_data/bestfit/bestfit_values.txt", w) as outfile:
     print(params0,file=outfile)
     print(res.x,file=outfile)
 print("\n")
 print("DONE")
 
-# Create bestfit simulation
-create_bestfit(res.x, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
 
 # MCMC
+
 def log_likelihood(params, t, T_ave, I_ave, D_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
     """
     Calculates how well the model fits the data.
     """
     try:
         output = CDMetaPOP(params, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
-        model_s = output['S'] # Adjust 'S' to match your target data column
+        model_s = output['S']
         model_i = output['I']        
         model_r = output['R']
 
@@ -272,8 +269,8 @@ def log_prior(params):
     """
     Strictly enforces your (0, 1) boundaries.
     """
-    p1, p2 = params
-    if 0.0 < p1 < 1.0 and 0.0 < p2 < 1.0:
+    p1, p2, p3 = params
+    if 0.0 < p1 < 1.0 and 0.0 < p2 < 1.0 and 0.0 < p3 < 1.0:
         return 0.0
     return -np.inf
 
@@ -286,7 +283,7 @@ def log_probability(params, t, T_ave, I_ave, D_ave, LocOfTM, LocOfsrc, LocOfRunV
 
 nwalkers = 16
 nsteps = 200
-ndim = 2
+ndim = 3
 
 initial_guess = res.x 
 pos = initial_guess + 1e-4 * np.random.randn(nwalkers, ndim)
@@ -302,49 +299,19 @@ sampler = emcee.EnsembleSampler(
 
 # Run the MCMC
 sampler.run_mcmc(pos, nsteps, progress=True)
-np.save(r"Figure_2_from_source_data/mcmc_sampler.npy", sampler)
+np.save("mcmc_sampler.npy", sampler)
 
 # Discard 100 steps for burn-in
-flat_samples = sampler.get_chain(discard=100, thin=10, flat=True)
+flat_samples = sampler.get_chain(discard=tau, thin=10, flat=True)
+np.save("flat_samples.npy", flat_samples)
 
 print("\n--- Parameter Estimation Results ---")
-labels = ["p1", "p2"]
-with open(r"Figure_2_from_source_data/uncertainty_values.txt", w) as outfile:
+labels = ["p1", "p2", "p3"]
+with open(r"Figure_3_from_source_data/uncertainty_values.txt", w) as outfile:
     for i in range(ndim):
         mcmc = np.percentile(flat_samples[:, i], [16, 50, 84])
         q = np.diff(mcmc)
-        print(f"{labels[i]}: {mcmc[1]:.4f} (+{q[1]:.4f} / -{q[0]:.4f})")
-
-# CI
-runtime = 50
-num_sims = 100
-time = np.linspace(0, runtime, runtime)
-
-folder_path = Path(r'../NewFiles/OnePatch_SIR/output/')
-
-# List only the directories (folders)
-folders = [f.name for f in folder_path.iterdir() if f.is_dir()]
-
-S_trajectories = np.zeros((len(folders), runtime))
-I_trajectories = np.zeros((len(folders), runtime))
-R_trajectories = np.zeros((len(folders), runtime))
-for i, folder_name in enumerate(folders):
-
-    base_path = os.path.join(folder_path,folder_name)
-    prefix = 'run0batch0mc'
-    comps = ['S', 'I', 'R']
-    means, all_data = load_fixed_simulation_data(base_path, prefix, comps, env=True)
-
-    S_trajectories[i, :] = means['S']
-    I_trajectories[i, :] = means['I']
-    R_trajectories[i, :] = means['R']
-
-np.save(r"Figure_2_from_source_data/S_trajectories.npy", S_trajectories)
-np.save(r"Figure_2_from_source_data/I_trajectories.npy", I_trajectories)
-np.save(r"Figure_2_from_source_data/R_trajectories.npy", R_trajectories)
-
-
-
+        print(f"{labels[i]}: {mcmc[1]:.4f} (+{q[1]:.4f} / -{q[0]:.4f})", file=outfile)
 
 
 # Plot ###############################################################
@@ -365,14 +332,14 @@ label_size = 35
 runtime = 50
 num_sims = 100
 time = np.linspace(0, runtime, runtime)
-base_path = r"Figure_2_from_source_data/bestfit/Bestfit_Data/"
+base_path = r"Figure_3_from_source_data/bestfit/Bestfit_Data/"
 prefix = 'run0batch0mc'
 comps = ['S', 'I', 'R']
 means, all_data = load_fixed_simulation_data(base_path, prefix, comps, env=True)
 
-T_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/T_ave.npy")
-I_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/I_ave.npy")
-D_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/D_ave.npy")
+T_ave = np.load(r"Figure_3_from_source_data/bestfit/ODE_Data/T_ave.npy")
+I_ave = np.load(r"Figure_3_from_source_data/bestfit/ODE_Data/I_ave.npy")
+D_ave = np.load(r"Figure_3_from_source_data/bestfit/ODE_Data/D_ave.npy")
 
 fig = plt.figure(figsize=(10, 10))
 
@@ -402,9 +369,9 @@ plt.savefig("figure_outputs/from_source/bestfit.png")
 plt.close()
 
 ############# CI
-S_trajectories = np.load("Figure_2_from_source_data/S_trajectories.npy")
-I_trajectories = np.load("Figure_2_from_source_data/I_trajectories.npy")
-R_trajectories = np.load("Figure_2_from_source_data/R_trajectories.npy")
+S_trajectories = np.load("Figure_3_from_source_data/S_trajectories.npy")
+I_trajectories = np.load("Figure_3_from_source_data/I_trajectories.npy")
+R_trajectories = np.load("Figure_3_from_source_data/R_trajectories.npy")
 
 Ulower_bound = np.percentile(S_trajectories, 2.5, axis=0)
 Uupper_bound = np.percentile(S_trajectories, 97.5, axis=0)
@@ -432,9 +399,9 @@ plt.fill_between(time, Rlower_bound, Rupper_bound, color='#009E73', alpha=0.2)
 plt.plot(time, Rmedian, color='#009E73', linestyle='--', label='R: MCMC')
 
 
-T_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/T_ave.npy")
-I_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/I_ave.npy")
-D_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/D_ave.npy")
+T_ave = np.load(r"Figure_3_from_source_data/bestfit/ODE_Data/T_ave.npy")
+I_ave = np.load(r"Figure_3_from_source_data/bestfit/ODE_Data/I_ave.npy")
+D_ave = np.load(r"Figure_3_from_source_data/bestfit/ODE_Data/D_ave.npy")
 plt.plot(time, T_ave, color='#56B4E9', label='S: ODE')
 plt.plot(time, I_ave, color='#D55E00', label='I: ODE')
 plt.plot(time, D_ave, color='#009E73', label='R: ODE')
@@ -450,16 +417,16 @@ plt.savefig("figure_outputs/from_source/CI")
 plt.close()
 
 ######################################################3
-sampler = np.load(r"Figure_2_from_source_data/mcmc_sampler.npy", allow_pickle=True).item()
+sampler = np.load(r"Figure_3_from_source_data/mcmc_sampler.npy", allow_pickle=True).item()
 flat_samples = sampler.get_chain(discard=100, thin=10, flat=True)
 
-labels = [r"$\beta$", r"$\gamma$"]
+labels = [r"$\beta$", r"$\gamma$", r"$\phi$"]
 ndim = len(labels)
 
 fig = corner.corner(
     flat_samples, 
     labels=labels, 
-    truths=[0.51457746, 0.20896594],
+    truths=[0.54985047, 0.22113357, 0.21202528],
     quantiles=[0.16, 0.5, 0.84],
     show_titles=True,
     plot_datapoints=True,
@@ -468,7 +435,7 @@ fig = corner.corner(
     fig=plt.figure(figsize=(10, 10))
 )
 axes = np.array(fig.axes).reshape((ndim, ndim))
-org_truth = [0.5, 0.2]
+org_truth = [0.5, 0.2, 0.2]
 for i in range(ndim):
     for j in range(i + 1):
         ax = axes[i, j]
@@ -493,13 +460,16 @@ plt.close()
 
 #####################################################################
 samples = sampler.get_chain()
-fig, axs = plt.subplots(2, figsize=(10, 10), sharex=True)
+fig, axs = plt.subplots(3, figsize=(10, 10), sharex=True)
 
 axs[0].plot(samples[:, :, 0], "k", alpha=0.3)
 axs[0].set_ylabel(labels[0])
 
 axs[1].plot(samples[:, :, 1], "k", alpha=0.3)
 axs[1].set_ylabel(labels[1])
+
+axs[2].plot(samples[:, :, 2], "k", alpha=0.3)
+axs[2].set_ylabel(labels[2])
 
 axs[0].text(0.02, 0.94, f"({sub_label[2]})", transform=fig.transFigure, fontsize=label_size, fontweight='bold')
 plt.xlabel("Number of Iterations")
@@ -523,8 +493,12 @@ axs[1, 1].imshow(mpimg.imread("figure_outputs/from_source/CI.png"))
 axs[1, 1].axis('off')
 
 plt.tight_layout()
-plt.savefig("figure_outputs/from_source/Figure_2.png")
+plt.savefig("figure_outputs/from_source/Figure_3.png")
 plt.close()
+
+
+
+
 
 
 

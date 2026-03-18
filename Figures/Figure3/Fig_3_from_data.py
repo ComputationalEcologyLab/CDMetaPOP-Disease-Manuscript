@@ -96,14 +96,14 @@ label_size = 35
 runtime = 50
 num_sims = 100
 time = np.linspace(0, runtime, runtime)
-base_path = r"mcmc_SIRS/bestfit/Bestfit_Data/"
+base_path = r"Figure_3_summary_data/bestfit/Bestfit_Data/"
 prefix = 'run0batch0mc'
 comps = ['S', 'I', 'R']
 means, all_data = load_fixed_simulation_data(base_path, prefix, comps, env=True)
 
-T_ave = np.load(r"mcmc_SIRS/bestfit/ODE_Data/T_ave.npy")
-I_ave = np.load(r"mcmc_SIRS/bestfit/ODE_Data/I_ave.npy")
-D_ave = np.load(r"mcmc_SIRS/bestfit/ODE_Data/D_ave.npy")
+T_ave = np.load(r"Figure_3_summary_data/bestfit/ODE_Data/T_ave.npy")
+I_ave = np.load(r"Figure_3_summary_data/bestfit/ODE_Data/I_ave.npy")
+D_ave = np.load(r"Figure_3_summary_data/bestfit/ODE_Data/D_ave.npy")
 
 fig = plt.figure(figsize=(10, 10))
 
@@ -133,9 +133,9 @@ plt.savefig("figure_outputs/bestfit.png")
 plt.close()
 
 ############# CI
-S_trajectories = np.load("mcmc_SIRS/S_trajectories.npy")
-I_trajectories = np.load("mcmc_SIRS/I_trajectories.npy")
-R_trajectories = np.load("mcmc_SIRS/R_trajectories.npy")
+S_trajectories = np.load("Figure_3_summary_data/S_trajectories.npy")
+I_trajectories = np.load("Figure_3_summary_data/I_trajectories.npy")
+R_trajectories = np.load("Figure_3_summary_data/R_trajectories.npy")
 
 Ulower_bound = np.percentile(S_trajectories, 2.5, axis=0)
 Uupper_bound = np.percentile(S_trajectories, 97.5, axis=0)
@@ -163,9 +163,9 @@ plt.fill_between(time, Rlower_bound, Rupper_bound, color='#009E73', alpha=0.2)
 plt.plot(time, Rmedian, color='#009E73', linestyle='--', label='R: MCMC')
 
 
-T_ave = np.load(r"mcmc_SIRS/bestfit/ODE_Data/T_ave.npy")
-I_ave = np.load(r"mcmc_SIRS/bestfit/ODE_Data/I_ave.npy")
-D_ave = np.load(r"mcmc_SIRS/bestfit/ODE_Data/D_ave.npy")
+T_ave = np.load(r"Figure_3_summary_data/bestfit/ODE_Data/T_ave.npy")
+I_ave = np.load(r"Figure_3_summary_data/bestfit/ODE_Data/I_ave.npy")
+D_ave = np.load(r"Figure_3_summary_data/bestfit/ODE_Data/D_ave.npy")
 plt.plot(time, T_ave, color='#56B4E9', label='S: ODE')
 plt.plot(time, I_ave, color='#D55E00', label='I: ODE')
 plt.plot(time, D_ave, color='#009E73', label='R: ODE')
@@ -181,7 +181,7 @@ plt.savefig("figure_outputs/CI")
 plt.close()
 
 ######################################################3
-sampler = np.load(r"mcmc_SIRS/mcmc_sampler.npy", allow_pickle=True).item()
+sampler = np.load(r"Figure_3_summary_data/mcmc_sampler.npy", allow_pickle=True).item()
 flat_samples = sampler.get_chain(discard=100, thin=10, flat=True)
 
 labels = [r"$\beta$", r"$\gamma$", r"$\phi$"]

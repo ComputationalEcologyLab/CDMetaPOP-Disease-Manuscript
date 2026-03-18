@@ -87,7 +87,7 @@ The image for figure X (Figure_X.png) will be created in the *figure_outputs* di
 >[!Note]
 > ~50 MB will be needed to store the data for this figure
 
-To reproduce the data for figure 1 four cases must be simulated. 
+To reproduce the data for figure 1, four cases must be simulated. 
 The code to run each simulation is:
 - SIR
     - ``` python CDMetaPOP/CDMetaPOP.py Figures/Figure1/CDMetaPOP_inputs/SIR/ RunVars.csv output/output ```
@@ -99,8 +99,8 @@ The code to run each simulation is:
     - ``` python CDMetaPOP/CDMetaPOP.py Figures/Figure1/CDMetaPOP_inputs/SIRS/ RunVars.csv output/output ```
 
 Once the simulations are completed:
-- Rename each directory to the corresponding model type 
-    - e.g. The directory that is created in *Figures/Figure1/CDMetaPOP_inputs/SIR/output/* rename to SIR)
+- Rename each created directory to the corresponding model type 
+    - e.g. The directory that is created in *Figures/Figure1/CDMetaPOP_inputs/SIR/output/* needs to be renamed to SIR
 - Move the renamed folder to *Figures/Figure1/Figure_1_from_source_data/*
 
 After all the data has been added to *Figures/Figure1/Figure_1_from_source_data/*. 
@@ -109,33 +109,57 @@ After all the data has been added to *Figures/Figure1/Figure_1_from_source_data/
 - run
     -``` python Fig_1_from_source.py ```
 
+The image for figure 1 (Figure_1.png) will be created in the *figure_outputs/from_source* directory with in [Figure1](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure1).
 
 ### Figure 2
 
 >[!Note]
 > ~35 GB will be needed to store the data for this figure
 
+To reproduce the data for figure 2 run:
+- ``` python Fig_2_from_source.py ```
 
+The image for figure 1 (Figure_1.png) will be created in the *figure_outputs/from_source* directory with in [Figure2](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure2).
 
 ### Figure 3
 
 >[!Note]
-> ~ will be needed to store the data for this figure
+> ~35 GB will be needed to store the data for this figure
+
+To reproduce the data for figure 3 run:
+- ``` python Fig_3_from_source.py ```
+
+The image for figure 3 (Figure_3.png) will be created in the *figure_outputs/from_source* directory with in [Figure3](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure3).
 
 ### Figure 4
 
 >[!Note]
-> ~ will be needed to store the data for this figure
+> ~ 8 GB will be needed to store the data for this figure
+
+To reproduce the data for figure 4 run:
+- ``` python CDMetaPOP/CDMetaPOP.py Figures/Figure4/CDMetaPOP_inputs/ RunVars.csv output/output ```
+
+Once the simulation is completed:
+- Rename the created directory to *Aspatial_inputs*. 
+    - e.g. The directory that is created in *Figures/Figure4/CDMetaPOP_inputs/output/* needs to be renamed to *Aspatial_inputs*.
+
+After the data has been added to *Figures/Figure4/Figure_4_from_source_data/*. 
+- Navigate to [Figure4](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure1).
+    - ``` setwd("Figures/Figure4") ``` 
+- run
+    -``` source("Fig_4_from_source.R") ```
+
+The image for figure 4 (Figure_4.png) will be created in the *figure_outputs/from_source* directory with in [Figure4](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure1). 
 
 ### Figure 5
 
 >[!Note]
-> ~ will be needed to store the data for this figure
+> ~ 25 GB will be needed to store the data for this figure
 
 ### Figure 6
 
 >[!Note]
-> ~ will be needed to store the data for this figure
+> ~ 25 GB will be needed to store the data for this figure
 
 
 
