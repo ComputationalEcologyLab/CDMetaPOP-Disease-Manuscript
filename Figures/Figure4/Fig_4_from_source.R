@@ -11,7 +11,7 @@ library(ggplot2)
 
 # Set base directory where the CDMetaPop raw output files are stored
 # This should contain directories named run0batch0mc0species0, run0batch0mc1species0, etc
-base_dir_aspatial <- "Aspatial_inputs"
+base_dir_aspatial <- "Fig4_from _source_data/Aspatial_inputs"
 
 # Define where figure outputs should go
 output_dir <- "figure_outputs"

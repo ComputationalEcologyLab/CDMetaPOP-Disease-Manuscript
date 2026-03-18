@@ -142,6 +142,7 @@ To reproduce the data for figure 4 run:
 Once the simulation is completed:
 - Rename the created directory to *Aspatial_inputs*. 
     - e.g. The directory that is created in *Figures/Figure4/CDMetaPOP_inputs/output/* needs to be renamed to *Aspatial_inputs*.
+- Move the renamed folder to *Figures/Figure4/Figure_4_from_source_data/*
 
 After the data has been added to *Figures/Figure4/Figure_4_from_source_data/*. 
 - Navigate to [Figure4](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure1).
