@@ -1,60 +1,214 @@
-# Simulation Data and Code for CDMetaPOP-Disease Manuscript
+# CDMetaPOP-Disease Manuscript Figure Reproduction
 
-This repository contains the input files, analysis scripts, summarized output data, and supplementary documentation required to replicate all analyses and figures in the manuscript: **Simulating the Landscape Eco-Evolution of Host-Pathogen Systems with CDMetaPOP**, a new module in CDMetaPOP for simulating disease transmission and spread in realistic landscapes (Manuscript submitted to Molecular Biology and Evolution, 2025)
+![Compatibility Check](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/actions/workflows/python-check.yml/badge.svg)
 
-**Authors:** Erin L. Landguth, Allison Williams, Marissa Roseman,  Miracle Amadi, Marcel Kouete, Rhys Farrer, Amy Haeseler, Orly Razgour, Chris Richardson, Byron Weckworth, Julie Weckworth, Flora Whiting-Fawcett, Duncan Wilson, Casey Day
 
-**Permanent DOI for this repository:** TBD
+### Table of Contents  
+[Introduction](#introduction)  
+[Software Install](#software-install)  
+[Recreation](#recreation)  
+[Reproduction](#reproduction)  
+<a name="headers"/>
 
-**About This Repository:** This repository contains all materials necessary to reproduce the analyses from our manuscript. The contents are organized according to the figures presented in the paper.
+## Introduction
 
-**Software:** The simulations were run using CDMetaPOP v3.08. The main software repository (including the installer) is available at: https://github.com/ComputationalEcologyLab/CDMetaPOP
+This repository contains the files to recreate and reproduce the figures and analyses in the manuscript:  
+**Landguth, E. L., et al. (Submitted). "Simulating the Landscape Eco-Evolution of Host-Pathogen Systems with CDMetaPOP"**
 
-**Analysis:** Figures were generated using R or Python.
+>**Full Authorship:** Erin L. Landguth, Allison Williams, Marissa Roseman, Miracle Amadi, Baylor Fain, Marcel Kouete, Rhys A. Farrer, Amy J. Haeseler, Orly Razgour, Chris Richardson, Byron Weckworth, Julie Weckworth, Flora Whiting-Fawcett, Duncan Wilson, Casey C. Day
 
-## Repository Structure
+## Software Install
 
-- **/Theoretical_Validation/:** These files reproduce Figure 1. Zipfiles for **/Input_Files/** and **/Output_Files/** for validating/verifying the module against classical SIR, SIRS, SEIR, and SIRP models. Also includes the Python script (run_verification.py) to generate the deterministic ODE solutions with the simulated expectations.
+To recreate the figures summary data is provided and all that needs to be done is to run the provided code. 
+Figure 1, 2, and 3 use python and Figure 4, 5, and 6 use R.
 
-- **/Selection_Scenarios/:** These files reproduce Figure 2 for the aspatial eco-evolutionary demonstration (Null, Neutral, Resistance, Tolerance, and Res+Tol scenarios). The folder includes a zip file containing the input files, the script used to generate the figure, and a supplemental figure illustrating the emergence of a disease-response genetic strategy and its impact on disease dynamics.
+>[!NOTE]
+>The provided codes should work with current releases of python and R packages, but environment setup is also provided.  
 
-- **/Example_Application/:** These files reproduce Figue 3 & 4 and contain all necessary input files to replicate the spatial example of novel disease emergence and spread through a bat system model. This folder contains:
-  - /Input_Files/ 
-  - /Scripts/ to run CDMetaPOP and plot 
-  - /Figures/ supplemental figures for the spatial example.
+### To begin
+>[!Important]
+> Clone this repo and use it as the working directory
 
-- **/Supplementary_Materials/:** Contains all materials formerly in the manuscript Appendix.
-  - CDMetaPOP_Disease_Module_Documentation.docx: A detailed user guide (formerly Appendix Text A.1 and Table A.1).
-  - CDMetaPOP_Life_Cycle_Diagram.png: (Formerly Figure A.1).
-  - /videos/: Contains supplementary videos (formerly Video A.1-A.4) showing spatial simulation results.
+#### Python environment
+To setup the python environment make sure either [Anaconda](https://www.anaconda.com/docs/getting-started/anaconda/install), [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install), or your favorite conda provider is installed. 
+Then enter the following instructions in the terminal (please choose your favorite terminal: Anaconda prompt, Spyder terminal, bash, etc.):
+```
+conda create --name CDMetaPOP_Disease_env python
+conda activate CDMetaPOP_Disease_env
+pip install -r requirements.txt
+```
 
-## How to Replicate Manuscript Figures
+#### R environment
+To setup the R environment use [Rstudio](https://posit.co/download/rstudio-desktop/) and make sure `Renv` is installed (`install.packages("renv"`)). 
+Then enter the following instructions in the terminal:
+```
+renv::restore()
+```
 
-**Option 1: Replicate Figures from Archived Data (Recommended)**
 
-This is the fastest method and does not require running the CDMetaPOP simulations.
+## Recreation
 
-1. Clone this repository.
+>[!Important]
+> Follow the instructions in [Software Install](#software-install) and begin each figure making process with this repo as your working directory
 
-2. Open any R script provided in each folder.
+### Python
 
-3. The script will load the corresponding data file from /archived_outputs/.
+#### To recreate Figure 1-3:
 
-4. Run the R script to generate the figure.
+- Navigate to the desired directory within [Figures](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures), either [Figure1](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure1), [Figure2](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure2), or [Figure3](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure3).
+    - ``` cd Figures/FigureX``` 
+- run
+    - ``` python Figure_X_from_data.py ```
 
-**Option 2: Full Replication by Re-running Simulations (Advanced)**
+The image for figure X (Figure_X.png) will be created in the *figure_outputs* directory within *FigureX*.
 
-This method re-runs the CDMetaPOP simulations from scratch to generate the raw data.
+### R
 
-1. Install CDMetaPOP: Follow the installation instructions at the main CDMetaPOP repository.
+#### To recreate Figure 4-6:
 
-2. Navigate to a Figure Directory: cd /Theoretical_Validation/Inputs_Files/
+- Double click the [.Rprofile](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/blob/manuscript_prep/.Rprofile) file, which will open Rstudio
+- Navigate to the desired directory within [Figures](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures), either [Figure4](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure4), [Figure5](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure5), or [Figure6](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure6).
+    - ``` setwd("Figures/FigureX") ``` 
+- run in the console
+    - ``` source("Figure_X_from_data.R") ```
 
-3. Run Simulation: Run the CDMetaPOP program using the input files in this directory
+The image for figure X (Figure_X.png) will be created in the *figure_outputs* directory with in *FigureX*.
 
-4. Repeat: Repeat this process for all simulation scenarios (Neutral, Resistance, etc.)
+## Reproduction
 
-## Supplementary Materials & Documentation
+>[!Important]
+> Follow the instructions in [Software Install](#software-install) and begin each figure making process with this repo as your working directory
 
-For detailed parameter definitions, user manual instructions, and supplementary videos, please see the /Supplementary_Materials/ folder in this repository.
+>[!Note]
+> CDMetaPOP v3.08 is provided in this repo, so CDMetaPOP does not have to be install again unless desired.
+
+### Figure 1
+
+>[!Note]
+> ~50 MB will be needed to store the data for this figure
+
+To reproduce the data for figure 1, four cases must be simulated. 
+The code to run each simulation is:
+- SIR
+    - ``` python CDMetaPOP/CDMetaPOP.py Figures/Figure1/CDMetaPOP_inputs/SIR/ RunVars.csv output/output ```
+- SEIR
+    - ``` python CDMetaPOP/CDMetaPOP.py Figures/Figure1/CDMetaPOP_inputs/SEIR/ RunVars.csv output/output ```
+- SIRP
+    - ``` python CDMetaPOP/CDMetaPOP.py Figures/Figure1/CDMetaPOP_inputs/SIRP/ RunVars.csv output/output ```
+- SIRS
+    - ``` python CDMetaPOP/CDMetaPOP.py Figures/Figure1/CDMetaPOP_inputs/SIRS/ RunVars.csv output/output ```
+
+Once the simulations are completed:
+- Rename each created directory to the corresponding model type 
+    - e.g. The directory that is created in *Figures/Figure1/CDMetaPOP_inputs/SIR/output/* needs to be renamed to SIR
+- Move the renamed folder to *Figures/Figure1/Figure_1_from_source_data/*
+
+After all the data has been added to *Figures/Figure1/Figure_1_from_source_data/*. 
+- Navigate to [Figure1](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure1).
+    - ``` cd Figures/Figure1``` 
+- run
+    -``` python Figure_1_from_source.py ```
+
+The image for figure 1 (Figure_1.png) will be created in the *figure_outputs/from_source* directory with in [Figure1](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure1).
+
+### Figure 2
+
+>[!Note]
+> ~35 GB will be needed to store the data for this figure
+
+To reproduce the data for figure 2 run:
+- ``` python Figure_2_from_source.py ```
+
+The image for figure 1 (Figure_1.png) will be created in the *figure_outputs/from_source* directory with in [Figure2](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure2).
+
+### Figure 3
+
+>[!Note]
+> ~35 GB will be needed to store the data for this figure
+
+To reproduce the data for figure 3 run:
+- ``` python Figure_3_from_source.py ```
+
+The image for figure 3 (Figure_3.png) will be created in the *figure_outputs/from_source* directory with in [Figure3](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure3).
+
+### Figure 4
+
+>[!Note]
+> ~ 8 GB will be needed to store the data for this figure
+
+To reproduce the data for figure 4 run:
+- ``` python CDMetaPOP/CDMetaPOP.py Figures/Figure4/CDMetaPOP_inputs/ RunVars.csv output/output ```
+
+Once the simulation is completed:
+- Rename the created directory to *Aspatial_inputs*. 
+    - e.g. The directory that is created in *Figures/Figure4/CDMetaPOP_inputs/output/* needs to be renamed to *Aspatial_inputs*.
+- Move the renamed folder to *Figures/Figure4/Figure_4_from_source_data/*
+
+After the data has been added to *Figures/Figure4/Figure_4_from_source_data/*. 
+- Navigate to [Figure4](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure1).
+    - ``` setwd("Figures/Figure4") ``` 
+- run
+    -``` source("Figure_4_from_source.R") ```
+
+The image for figure 4 (Figure_4.png) will be created in the *figure_outputs/from_source* directory with in [Figure4](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure4). 
+
+### Figure 5 and 6
+
+>[!Note]
+> ~ 25 GB will be needed to store the data for this figure
+
+Figure 5 and 6 use the same data. 
+One can either run the simulation in [Figure5](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure5) or [Figure6](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure6) and then move the data to the other folder. 
+These instructions will instruct the reader to create the simulations in [Figure5](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure5) and the code for figure 6 will point to that data.
+To reproduce the data for figure 5 and 6 run:
+- ``` python CDMetaPOP/CDMetaPOP.py Figures/Figure5/CDMetaPOP_inputs/ RunVars.csv output/output ```  
+
+Once the simulation is completed:
+- Rename the created directory to *Spatial_inputs*. 
+    - e.g. The directory that is created in either *Figures/Figure5/CDMetaPOP_inputs/output/* needs to be renamed to *Spatial_inputs*.
+- Move the renamed folder to *Figures/Figure5/Figure_5_from_source_data/*
+
+After the data has been added to either *Figures/Figure5/Figure_5_from_source_data/*. 
+- For figure 5:
+    - Navigate to the [Figure5](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure5).
+        - ``` setwd("Figures/Figure5") ``` 
+    - run
+        -``` source("Figure_5_from_source.R") ```
+
+    The image for figure 5 (Figure_5.png) will be created in the *figure_outputs/from_source* directory with in [Figure5](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure5). 
+- For figure 6:
+    - Navigate to the [Figure6](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure5).
+        - ``` setwd("Figures/Figure6") ``` 
+    - run
+        -``` source("Figure_6_from_source.R") ```
+
+    The image for figure 6 (Figure_6.png) will be created in the *figure_outputs/from_source* directory with in [Figure6](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Figures/Figure6). 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -1,0 +1,7 @@
+corner
+emcee
+matplotlib
+numpy
+pandas
+permetrics
+scipy
