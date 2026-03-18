@@ -49,7 +49,7 @@ renv::restore()
 ## Recreation
 
 >[!Important]
-> Follow the instructions in [Software Install](#software-install) and begin with this repo as your working directory
+> Follow the instructions in [Software Install](#software-install) and begin each figure making process with this repo as your working directory
 
 ### Python
 
@@ -77,7 +77,7 @@ The image for figure X (Figure_X.png) will be created in the *figure_outputs* di
 ## Reproduction
 
 >[!Important]
-> Follow the instructions in [Software Install](#software-install) and begin with this repo as your working directory
+> Follow the instructions in [Software Install](#software-install) and begin each figure making process with this repo as your working directory
 
 >[!Note]
 > CDMetaPOP v3.08 is provided in this repo, so CDMetaPOP does not have to be install again unless desired.

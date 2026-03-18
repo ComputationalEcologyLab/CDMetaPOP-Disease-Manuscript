@@ -80,20 +80,20 @@ def CDMetaPOP(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
     TransitionMatrix_SIDP_SSR.to_csv(LocOfTM, index=False, header=False)   
 
     # Run CDMetaPOP
-    os.system("cd "+ LocOfsrc +"&& python CDmetaPOP.py "+ LocOfRunVars +" RunVars.csv output/output")
+    os.system("cd "+ LocOfsrc +"&& python CDMetaPOP.py "+ LocOfRunVars+" RunVars.csv output/output")
     gc.collect()
 
     # Get new data folder
-    path = Path(LocOfOutput)
+    path = Path(r"CDMetaPOP_inputs/output/")
     phrase = "output"
     recent_folder = get_recent_folder(path, phrase)
 
     # Make copy of transitions matrix
     TMFile = LocOfTM.split("/")
-    TransitionMatrix_SIDP_SSR.to_csv(LocOfOutput + recent_folder + '/' + TMFile[-1], index=False, header=False) 
+    TransitionMatrix_SIDP_SSR.to_csv(r"CDMetaPOP_inputs/output/" + recent_folder + '/' + TMFile[-1], index=False, header=False) 
 
     # Create data from CDMetaPOP runs
-    base_path = LocOfOutput+recent_folder
+    base_path = r"CDMetaPOP_inputs/output/"+recent_folder
     prefix = 'run0batch0mc'
     comps = ['S', 'I', 'R']
     means, all_data = load_fixed_simulation_data(base_path, prefix, comps, env=True)
@@ -106,9 +106,9 @@ def SSR(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
     output = CDMetaPOP(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
 
     SSR = 0
-    SSR += np.sum((T_ave - output['S'])**2)
+    SSR += np.sum((S_ave - output['S'])**2)
     SSR += np.sum((I_ave - output['I'])**2)
-    SSR += np.sum((D_ave - output['R'])**2)
+    SSR += np.sum((R_ave - output['R'])**2)
 
     print(params0)
     print(SSR)
@@ -125,11 +125,11 @@ def create_bestfit(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
 
     output = CDMetaPOP(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
 
-    path = Path(LocOfOutput)
+    path = Path(r"CDMetaPOP_inputs/output/")
     phrase = "output"
     recent_folder = get_recent_folder(path, phrase)
 
-    source = Path(LocOfOutput+recent_folder)
+    source = Path(r"CDMetaPOP_inputs/output/"+recent_folder)
     destination = Path(r"Figure_2_from_source_data/bestfit/")
 
     if source.exists() and source.is_dir():
@@ -144,16 +144,51 @@ def create_bestfit(params0, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
 
     return
 
+def log_likelihood(params, t, S_ave, I_ave, R_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
+    """
+    Calculates how well the model fits the data.
+    """
+    try:
+        output = CDMetaPOP(params, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
+        model_s = output['S']
+        model_i = output['I']        
+        model_r = output['R']
+
+        sigma2 = 100
+        ssr = np.sum((S_ave - model_s)**2) + np.sum((I_ave - model_i)**2) + np.sum((R_ave - model_r)**2)
+        print(ssr)
+        
+        return -0.5 * (ssr / sigma2)
+    except Exception as e:
+        return -np.inf
+
+def log_prior(params):
+    """
+    Strictly enforces your (0, 1) boundaries.
+    """
+    p1, p2 = params
+    if 0.0 < p1 < 1.0 and 0.0 < p2 < 1.0:
+        return 0.0
+    return -np.inf
+
+def log_probability(params, t, S_ave, I_ave, R_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
+    lp = log_prior(params)
+    if not np.isfinite(lp):
+        return -np.inf
+    return lp + log_likelihood(params, t, S_ave, I_ave, R_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
+
+
+# CDMetaPOP run file locations ########################################
 LocOfTM = r'CDMetaPOP_inputs/otherfiles/disease/TransitionMatrix_SIR_SSR.csv'
 
-LocOfsrc = r'CDMetaPOP/'
+LocOfsrc = r'../../CDMetaPOP/'
 
-LocOfRunVars = r'CDMetaPOP_inputs/SIR/'
+LocOfRunVars = r'../Figures/Figure2/CDMetaPOP_inputs/'
 
-LocOfOutput = r'CDMetaPOP_inputs/SIR/output/'
+LocOfOutput = r'../Figures/Figure2/CDMetaPOP_inputs/output/'
 
 
-filename = LocOfRunVars+'RunVars.csv'
+filename = r'CDMetaPOP_inputs/RunVars.csv'
 RunVars = pd.read_csv(filename)
 
 runtime = RunVars.at[0, 'runtime']
@@ -171,53 +206,53 @@ y0 = [N - 10, 10, 0]
 
 endtime = runtime
 tau = dt
-n_simulations = 100
+n_simulations = num_sims
 Time = np.zeros([n_simulations, 1],dtype=tuple)
-Ux = np.zeros([n_simulations, 1],dtype=tuple)
-Ix = np.zeros([n_simulations, 1],dtype=tuple)
-Dx = np.zeros([n_simulations, 1],dtype=tuple)
+S = np.zeros([n_simulations, 1],dtype=tuple)
+I = np.zeros([n_simulations, 1],dtype=tuple)
+R = np.zeros([n_simulations, 1],dtype=tuple)
 
 for i in range(n_simulations):
     Time[i][0] = [0.0]
-    Ux[i][0] = [y0[0]]
-    Ix[i][0] = [y0[1]]
-    Dx[i][0] = [y0[2]]
+    S[i][0] = [y0[0]]
+    I[i][0] = [y0[1]]
+    R[i][0] = [y0[2]]
 
-Rate = np.zeros((5))
+Rate = np.zeros((2))
 
 for i in range(n_simulations):
 
     timetime = 0
     while timetime < endtime:
 
-        Rate[0] = beta * (Ix[i][-1][-1] / N) * Ux[i][-1][-1]
-        Rate[1] = gamma * Ix[i][-1][-1]
+        Rate[0] = beta * (I[i][-1][-1] / N) * S[i][-1][-1]
+        Rate[1] = gamma * I[i][-1][-1]
 
         leap = tau
 
-        uT  = np.random.random()
+        uS  = np.random.random()
         uI  = np.random.random()
         
-        NT  = poisson.ppf(uT, Rate[0]*leap)
+        NS  = poisson.ppf(uS, Rate[0]*leap)
         NI  = poisson.ppf(uI, Rate[1]*leap)
 
-        NT  = min(NT, Ux[i][-1][-1])
-        NI  = min(NI, Ix[i][-1][-1])
+        NS  = min(NS, S[i][-1][-1])
+        NI  = min(NI, I[i][-1][-1])
 
-        Ux[i][0] = np.append(Ux[i][0], Ux[i][-1][-1] - NT)
-        Ix[i][0] = np.append(Ix[i][0], Ix[i][-1][-1] + NT - NI)
-        Dx[i][0] = np.append(Dx[i][0], Dx[i][-1][-1] + NI)
+        S[i][0] = np.append(S[i][0], S[i][-1][-1] - NS)
+        I[i][0] = np.append(I[i][0], I[i][-1][-1] + NS - NI)
+        R[i][0] = np.append(R[i][0], R[i][-1][-1] + NI)
 
         Time[i][0] = np.append(Time[i][0], Time[i][-1][-1] + leap)
         timetime = Time[i][-1][-1]
 
 Time_ave = Time[0][0]
-T_ave = Ux.mean(axis=0)[0]
-I_ave = Ix.mean(axis=0)[0]
-D_ave = Dx.mean(axis=0)[0]
-np.save("Figure_2_from_source_data/bestfit/ODE_Data/T_ave.npy", T_ave)
+S_ave = S.mean(axis=0)[0]
+I_ave = I.mean(axis=0)[0]
+R_ave = S.mean(axis=0)[0]
+np.save("Figure_2_from_source_data/bestfit/ODE_Data/S_ave.npy", S_ave)
 np.save("Figure_2_from_source_data/bestfit/ODE_Data/I_ave.npy", I_ave)
-np.save("Figure_2_from_source_data/bestfit/ODE_Data/D_ave.npy", D_ave)
+np.save("Figure_2_from_source_data/bestfit/ODE_Data/R_ave.npy", R_ave)
 
 # Fitting #####################################
 test_params = np.random.rand(2)
@@ -225,59 +260,26 @@ test_params = np.random.rand(2)
 simplex = np.array([test_params, [test_params[0]*2.0, test_params[1]], [test_params[0], test_params[1]*2.0]]) 
 res = minimize(SSR, x0=test_params, args=(LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput), method="Nelder-Mead", options={'initial_simplex': simplex, 'xatol': 1e-4})
 np.save("res.npy", res)
+params_results = res.x
 
 print("ODE values")
 print(params0)
-print(res.x)
-with open(r"Figure_2_from_source_data/bestfit/bestfit_values.txt", w) as outfile:
+print(params_results)
+with open(r"Figure_2_from_source_data/bestfit/bestfit_values.txt", 'w') as outfile:
     print(params0,file=outfile)
-    print(res.x,file=outfile)
+    print(params_results,file=outfile)
 print("\n")
 print("DONE")
 
 # Create bestfit simulation
-create_bestfit(res.x, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
+create_bestfit(params_results, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
 
 # MCMC
-def log_likelihood(params, t, T_ave, I_ave, D_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
-    """
-    Calculates how well the model fits the data.
-    """
-    try:
-        output = CDMetaPOP(params, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
-        model_s = output['S']
-        model_i = output['I']        
-        model_r = output['R']
-
-        sigma2 = 100
-        ssr = np.sum((T_ave - model_s)**2) + np.sum((I_ave - model_i)**2) + np.sum((D_ave - model_r)**2)
-        print(ssr)
-        
-        return -0.5 * (ssr / sigma2)
-    except Exception as e:
-        return -np.inf
-
-def log_prior(params):
-    """
-    Strictly enforces your (0, 1) boundaries.
-    """
-    p1, p2 = params
-    if 0.0 < p1 < 1.0 and 0.0 < p2 < 1.0:
-        return 0.0
-    return -np.inf
-
-def log_probability(params, t, T_ave, I_ave, D_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
-    lp = log_prior(params)
-    if not np.isfinite(lp):
-        return -np.inf
-    return lp + log_likelihood(params, t, T_ave, I_ave, D_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
-
-
 nwalkers = 16
 nsteps = 200
 ndim = 2
 
-initial_guess = res.x 
+initial_guess = params_results 
 pos = initial_guess + 1e-4 * np.random.randn(nwalkers, ndim)
 
 print("Starting MCMC")
@@ -286,7 +288,7 @@ sampler = emcee.EnsembleSampler(
     nwalkers, 
     ndim, 
     log_probability, 
-    args=(time, T_ave, I_ave, D_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
+    args=(time, S_ave, I_ave, R_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
 )
 
 # Run the MCMC
@@ -298,18 +300,17 @@ flat_samples = sampler.get_chain(discard=100, thin=10, flat=True)
 
 print("\n--- Parameter Estimation Results ---")
 labels = ["p1", "p2"]
-with open(r"Figure_2_from_source_data/uncertainty_values.txt", w) as outfile:
+with open(r"Figure_2_from_source_data/uncertainty_values.txt", 'w') as outfile:
     for i in range(ndim):
         mcmc = np.percentile(flat_samples[:, i], [16, 50, 84])
         q = np.diff(mcmc)
         print(f"{labels[i]}: {mcmc[1]:.4f} (+{q[1]:.4f} / -{q[0]:.4f})", file=outfile)
 
 # CI ###########################################
-runtime = 50
 num_sims = 100
 time = np.linspace(0, runtime, runtime)
 
-folder_path = Path(r'CDMetaPOP_inputs/SIR/output/')
+folder_path = Path(r'CDMetaPOP_inputs/output/')
 
 folders = [f.name for f in folder_path.iterdir() if f.is_dir()]
 
@@ -350,7 +351,6 @@ plt.rcParams['ytick.labelsize'] = 21
 plt.rcParams['legend.fontsize'] = 26
 label_size = 35
 
-runtime = 50
 num_sims = 100
 time = np.linspace(0, runtime, runtime)
 base_path = r"Figure_2_from_source_data/bestfit/Bestfit_Data/"
@@ -358,15 +358,15 @@ prefix = 'run0batch0mc'
 comps = ['S', 'I', 'R']
 means, all_data = load_fixed_simulation_data(base_path, prefix, comps, env=True)
 
-T_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/T_ave.npy")
+S_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/S_ave.npy")
 I_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/I_ave.npy")
-D_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/D_ave.npy")
+R_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/R_ave.npy")
 
 fig = plt.figure(figsize=(10, 10))
 
-plt.plot(time, T_ave, "-", color='#56B4E9', label="S: ODE")
+plt.plot(time, S_ave, "-", color='#56B4E9', label="S: ODE")
 plt.plot(time, I_ave, "-", color='#D55E00', label="I: ODE")
-plt.plot(time, D_ave, "-", color='#009E73', label="R: ODE")
+plt.plot(time, R_ave, "-", color='#009E73', label="R: ODE")
 
 plt.plot(time, means[comps[0]], color='#56B4E9', linestyle='--', label="S: Best Fit")
 plt.plot(time, means[comps[1]], color='#D55E00', linestyle='--', label="I: Best Fit")
@@ -419,12 +419,12 @@ plt.fill_between(time, Rlower_bound, Rupper_bound, color='#009E73', alpha=0.2)
 plt.plot(time, Rmedian, color='#009E73', linestyle='--', label='R: MCMC')
 
 
-T_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/T_ave.npy")
+S_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/S_ave.npy")
 I_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/I_ave.npy")
-D_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/D_ave.npy")
-plt.plot(time, T_ave, color='#56B4E9', label='S: ODE')
+R_ave = np.load(r"Figure_2_from_source_data/bestfit/ODE_Data/R_ave.npy")
+plt.plot(time, S_ave, color='#56B4E9', label='S: ODE')
 plt.plot(time, I_ave, color='#D55E00', label='I: ODE')
-plt.plot(time, D_ave, color='#009E73', label='R: ODE')
+plt.plot(time, R_ave, color='#009E73', label='R: ODE')
 
 plt.text(0.02, 0.94, f"({sub_label[3]})", transform=fig.transFigure, fontsize=label_size, fontweight='bold')
 plt.ylim(0,100)

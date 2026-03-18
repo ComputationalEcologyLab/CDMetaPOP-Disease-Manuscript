@@ -41,7 +41,7 @@ def load_fixed_simulation_data(base_path, folder_prefix, compartments, env=False
     means = {c: np.mean(np.array(all_data[c]), axis=0) if all_data[c] else np.zeros(runtime) for c in compartments}
     return means, all_data
 
-def log_likelihood(params, t, T_ave, I_ave, D_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
+def log_likelihood(params, t, S_ave, I_ave, R_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
     """
     Calculates how well the model fits the data.
     """
@@ -52,7 +52,7 @@ def log_likelihood(params, t, T_ave, I_ave, D_ave, LocOfTM, LocOfsrc, LocOfRunVa
         model_r = output['R']
 
         sigma2 = 100
-        ssr = np.sum((T_ave - model_s)**2) + np.sum((I_ave - model_i)**2) + np.sum((D_ave - model_r)**2)
+        ssr = np.sum((S_ave - model_s)**2) + np.sum((I_ave - model_i)**2) + np.sum((R_ave - model_r)**2)
         print(ssr)
         
         return -0.5 * (ssr / sigma2)
@@ -68,11 +68,11 @@ def log_prior(params):
         return 0.0
     return -np.inf
 
-def log_probability(params, t, T_ave, I_ave, D_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
+def log_probability(params, t, S_ave, I_ave, R_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput):
     lp = log_prior(params)
     if not np.isfinite(lp):
         return -np.inf
-    return lp + log_likelihood(params, t, T_ave, I_ave, D_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
+    return lp + log_likelihood(params, t, S_ave, I_ave, R_ave, LocOfTM, LocOfsrc, LocOfRunVars, LocOfOutput)
 
 
 # Comparison ###############################################
@@ -93,15 +93,15 @@ prefix = 'run0batch0mc'
 comps = ['S', 'I', 'R']
 means, all_data = load_fixed_simulation_data(base_path, prefix, comps, env=True)
 
-T_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/T_ave.npy")
+S_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/S_ave.npy")
 I_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/I_ave.npy")
-D_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/D_ave.npy")
+R_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/R_ave.npy")
 
 fig = plt.figure(figsize=(10, 10))
 
-plt.plot(time, T_ave, "-", color='#56B4E9', label="S: ODE")
+plt.plot(time, S_ave, "-", color='#56B4E9', label="S: ODE")
 plt.plot(time, I_ave, "-", color='#D55E00', label="I: ODE")
-plt.plot(time, D_ave, "-", color='#009E73', label="R: ODE")
+plt.plot(time, R_ave, "-", color='#009E73', label="R: ODE")
 
 plt.plot(time, means[comps[0]], color='#56B4E9', linestyle='--', label="S: Best Fit")
 plt.plot(time, means[comps[1]], color='#D55E00', linestyle='--', label="I: Best Fit")
@@ -155,12 +155,12 @@ plt.fill_between(time, Rlower_bound, Rupper_bound, color='#009E73', alpha=0.2)
 plt.plot(time, Rmedian, color='#009E73', linestyle='--', label='R: MCMC')
 
 
-T_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/T_ave.npy")
+S_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/S_ave.npy")
 I_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/I_ave.npy")
-D_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/D_ave.npy")
-plt.plot(time, T_ave, color='#56B4E9', label='S: ODE')
+R_ave = np.load(r"Figure_2_summary_data/bestfit/ODE_Data/R_ave.npy")
+plt.plot(time, S_ave, color='#56B4E9', label='S: ODE')
 plt.plot(time, I_ave, color='#D55E00', label='I: ODE')
-plt.plot(time, D_ave, color='#009E73', label='R: ODE')
+plt.plot(time, R_ave, color='#009E73', label='R: ODE')
 
 plt.text(0.02, 0.94, f"({sub_label[3]})", transform=fig.transFigure, fontsize=label_size, fontweight='bold')
 plt.ylim(0,100)
