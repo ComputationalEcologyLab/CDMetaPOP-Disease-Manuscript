@@ -28,7 +28,7 @@ batch_nums_spatial <- 0:3
 # Static spatial spread (Fig 5) --------------------------------------------
 
 # Read in data
-# plot_data<- readRDS(paste0(input_dir, "/Fig_5_data.Rds"))
+plot_data<- readRDS(paste0(input_dir, "/Fig_5_data.Rds"))
 
 #Get map outlines
 countries <- ne_countries(scale = "medium", returnclass = "sf")
@@ -73,7 +73,7 @@ ggsave(filename = paste0(output_dir, "/Figure_5.png"),
 # Spatial spread GIF (supplemental)---------------------------------------------
 
 # Read in data
-Fig_5_supplemental_data<- readRDS(paste0(input_dir, "/Fig_5_supplemental_data_gzipped.Rds"))
+Fig_5_supplemental_data <- readRDS(gzfile(paste0(input_dir, "/Fig_5_supplemental_data_gzipped.Rds")))
 
 # Get map outlines
 countries <- ne_countries(scale = "medium", returnclass = "sf")
@@ -108,10 +108,12 @@ for (batch in batch_nums_spatial) {
     guides(color = guide_legend(), size = guide_legend())
   
   # Animate and save
+  rendered_anim <- gganimate::animate(plot_obj, renderer = gifski_renderer())
+
   anim_save(
     filename = file.path(paste0(output_dir, "/batch_", batch, "_disease.gif")),
     animation = 
-      plot_obj,
+      rendered_anim,
     fps = 5
   )
 }

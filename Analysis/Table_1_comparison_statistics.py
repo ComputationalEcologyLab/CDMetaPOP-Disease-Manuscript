@@ -27,34 +27,35 @@ model_configs = {
 
 timesteps = range(51)
 
-for model, cfg in model_configs.items():
-    
-    file_path = f"{cfg['base_path']}/{model}_results_"
-    means = np.load(file_path+'means.npy', allow_pickle=True).item()
-    all_data = np.load(file_path+'all_data.npy', allow_pickle=True).item()
-    t_ode = np.load(file_path+'t_ode.npy', allow_pickle=True)
-    sol = np.load(file_path+'sol.npy', allow_pickle=True)
-    comps = list(np.load(file_path+'comps.npy', allow_pickle=True))
+with open("Table_1_values.txt", "w") as outfile:
+  for model, cfg in model_configs.items():
+      
+      file_path = f"{cfg['base_path']}/{model}_results_"
+      means = np.load(file_path+'means.npy', allow_pickle=True).item()
+      all_data = np.load(file_path+'all_data.npy', allow_pickle=True).item()
+      t_ode = np.load(file_path+'t_ode.npy', allow_pickle=True)
+      sol = np.load(file_path+'sol.npy', allow_pickle=True)
+      comps = list(np.load(file_path+'comps.npy', allow_pickle=True))
 
-    print("\n")
-    print(model)
-    for comp in cfg["comps"]:
-        print(comp)
-        idx = comps.index(comp)
-        data = sol[:, idx]
-        obs = means[comp][:-1]
-        if comp == 'P':
-            data = sol[:, idx][1:]
-            obs = means[comp][:-2]
+      print("\n", file=outfile)
+      print(model, file=outfile)
+      for comp in cfg["comps"]:
+          print(comp, file=outfile)
+          idx = comps.index(comp)
+          data = sol[:, idx]
+          obs = means[comp][:-1]
+          if comp == 'P':
+              data = sol[:, idx][1:]
+              obs = means[comp][:-2]
 
-        evaluator = RegressionMetric(data, obs)
-        print("(Pearson’s Correlation Index)**2: ", evaluator.pearson_correlation_coefficient_square())
-        print("R2 - Coefficient of Determination: ",evaluator.coefficient_of_determination())
-        print("NRMSE: ", evaluator.normalized_root_mean_square_error())
-        print("NSE: ", evaluator.nash_sutcliffe_efficiency())
-        print("KGE: ", evaluator.kling_gupta_efficiency())
+          evaluator = RegressionMetric(data, obs)
+          print("(Pearson’s Correlation Index)**2: ", evaluator.pearson_correlation_coefficient_square(), file=outfile)
+          print("R2 - Coefficient of Determination: ",evaluator.coefficient_of_determination(), file=outfile)
+          print("NRMSE: ", evaluator.normalized_root_mean_square_error(), file=outfile)
+          print("NSE: ", evaluator.nash_sutcliffe_efficiency(), file=outfile)
+          print("KGE: ", evaluator.kling_gupta_efficiency(), file=outfile)
 
-        print("\n")
+          print("\n", file=outfile)
 
 
 

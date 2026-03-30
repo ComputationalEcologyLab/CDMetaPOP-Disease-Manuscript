@@ -13,7 +13,7 @@ library(rnaturalearthdata)
 
 # Set base directory where the CDMetaPop raw output files are stored
 # This should contain directories named run0batch0mc0species0, run0batch0mc1species0, etc
-base_dir_spatial <- "Spatial_inputs"
+base_dir_spatial <- "Figure_5_from _source_data/Spatial_inputs"
 
 # Set directory where the provided points files are stored
 base_dir_points <- "Points_files"
@@ -142,7 +142,7 @@ ggplot(plot_data) +
          size = guide_legend(title = "No. infected")) +
   theme_minimal(base_size = 12)
 
-ggsave(filename = paste0(output_dir, "/static_spread.png"), 
+ggsave(filename = paste0(output_dir, "/from_source/Figure_5.png"), 
        dpi = 300, width = 5, height = 4.5, units = "in", bg = "white")
 
 
@@ -253,11 +253,13 @@ for (batch in batch_nums_spatial) {
     guides(color = guide_legend(), size = guide_legend())
   
   # Animate and save
+  rendered_anim <- gganimate::animate(plot_obj, renderer = gifski_renderer())
+
   anim_save(
-    filename = file.path(paste0(output_dir, "/batch_", batch, "_disease.gif")),
-    animation = 
-      plot_obj,
-    fps = 5
+    filename = file.path(output_dir, "from_source", paste0("batch_", batch, "_disease.gif")),
+    animation = rendered_anim
   )
-  
+
+
+
 }
