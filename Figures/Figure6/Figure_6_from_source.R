@@ -113,7 +113,7 @@ SIDP_fig <- ggplot(all_disease_state_data, aes(x = Year, y = mean,
 
 SIDP_fig
 
-ggsave(paste0(output_dir, "/SIDP_by_state.png"), SIDP_fig,
+ggsave(paste0(output_dir, "/from_source/SIDP_by_state.png"), SIDP_fig,
        width = 12, height = 7, dpi = 300, bg = "white")
 
 
@@ -220,7 +220,7 @@ Allele_Freq <- ggplot(all_batches_summary, aes(x = Year, y = mean, color = Allel
 Allele_Freq
 
 ggsave(
-  filename = paste0(output_dir, "/spatial_allele_freq.png"),
+  filename = paste0(output_dir, "/from_source/spatial_allele_freq.png"),
   plot = Allele_Freq,
   width = 12,
   height = 8,

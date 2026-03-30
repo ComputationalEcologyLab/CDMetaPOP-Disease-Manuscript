@@ -39,8 +39,8 @@ pip install -r requirements.txt
 ```
 
 #### R environment
-To setup the R environment use [Rstudio](https://posit.co/download/rstudio-desktop/) and make sure `Renv` is installed (`install.packages("renv"`)). 
-Then enter the following instructions in the terminal:
+To setup the R environment use [Rstudio](https://posit.co/download/rstudio-desktop/), double click the [.Rprofile](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/blob/manuscript_prep/.Rprofile) file (which will open Rstudio), and make sure `Renv` is installed (`install.packages("renv"`)). 
+Then enter the following instructions in the console:
 ```
 renv::restore()
 ```
@@ -61,6 +61,16 @@ renv::restore()
     - ``` python Figure_X_from_data.py ```
 
 The image for figure X (Figure_X.png) will be created in the *figure_outputs* directory within *FigureX*.
+
+#### To recreate Table 3
+
+- Navigate to [Analysis](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Analysis)
+    - ``` cd Figures/Analysis```
+- run 
+    - ``` python Table_1_comparison_statistics.py ```
+
+A file containing the tables values (Table_1_values.txt) will be created in [Analysis](https://github.com/ComputationalEcologyLab/CDMetaPOP-Disease-Manuscript/tree/manuscript_prep/Analysis).
+
 
 ### R
 
@@ -85,7 +95,7 @@ The image for figure X (Figure_X.png) will be created in the *figure_outputs* di
 ### Figure 1
 
 >[!Note]
-> ~50 MB will be needed to store the data for this figure
+> ~50 MB will be needed to store the data for this figure and each simulation wll take ~5 min.
 
 To reproduce the data for figure 1, four cases must be simulated. 
 The code to run each simulation is:
@@ -114,7 +124,7 @@ The image for figure 1 (Figure_1.png) will be created in the *figure_outputs/fro
 ### Figure 2
 
 >[!Note]
-> ~35 GB will be needed to store the data for this figure
+> ~35 GB will be needed to store the data for this figure and the code will run for about ~60 hr.
 
 To reproduce the data for figure 2 run:
 - ``` python Figure_2_from_source.py ```
@@ -124,7 +134,7 @@ The image for figure 1 (Figure_1.png) will be created in the *figure_outputs/fro
 ### Figure 3
 
 >[!Note]
-> ~35 GB will be needed to store the data for this figure
+> ~35 GB will be needed to store the data for this figure and the code will run for about ~60 hr.
 
 To reproduce the data for figure 3 run:
 - ``` python Figure_3_from_source.py ```

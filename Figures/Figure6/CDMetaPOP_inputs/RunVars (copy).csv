@@ -1,0 +1,5 @@
+Popvars,sizecontrol,constMortans,mcruns,runtime,output_years,gridformat,gridsampling,summaryOutput,cdclimgentime,startcomp,implementcomp
+popvars/PopVars_SIDP_T.csv,N,1,1,25,1,cdpop,Sample,N,0|49,0,Out
+popvars/PopVars_SIDP_RT.csv,N,1,1,25,1,cdpop,Sample,N,0|49,0,Out
+popvars/PopVars_SIDP_R.csv,N,1,1,25,1,cdpop,Sample,N,0|49,0,Out
+popvars/PopVars_SIDP_N.csv,N,1,1,25,1,cdpop,Sample,N,0|49,0,Out
