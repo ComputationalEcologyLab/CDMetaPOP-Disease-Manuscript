@@ -229,7 +229,7 @@ for (batch in batch_nums_spatial) {
   combined_sf <- right_join(pts_sf, batch_df, by = "patch")
   combined_sf$State <- factor(combined_sf$State, levels = c("S", "I", "D", "P"))
   
-  modelnames<- c("Neutral", "Resistance", "Tolerance", "Resistance + Tolerance")
+  modelnames<- c("Neutral", "Resistance", "Tolerance", "Resistance&Tolerance")
   
   # Build plot
   plot_obj <- ggplot(combined_sf) +
