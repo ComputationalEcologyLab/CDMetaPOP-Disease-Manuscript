@@ -80,7 +80,7 @@ countries <- ne_countries(scale = "medium", returnclass = "sf")
 #states <- ne_states(country = "United States of America", returnclass = "sf")
 states <- states50
 
-modelnames<- c("Neutral", "Resistance", "Tolerance", "Resistance + Tolerance")
+modelnames<- c("Neutral", "Resistance", "Tolerance", "Resistance&Tolerance")
 
 # Generate plot gifs
 for (batch in batch_nums_spatial) {
