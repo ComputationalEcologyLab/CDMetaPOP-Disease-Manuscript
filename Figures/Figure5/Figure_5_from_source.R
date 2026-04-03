@@ -229,6 +229,8 @@ for (batch in batch_nums_spatial) {
   combined_sf <- right_join(pts_sf, batch_df, by = "patch")
   combined_sf$State <- factor(combined_sf$State, levels = c("S", "I", "D", "P"))
   
+  modelnames<- c("Neutral", "Resistance", "Tolerance", "Resistance + Tolerance")
+  
   # Build plot
   plot_obj <- ggplot(combined_sf) +
     geom_sf(data = countries, fill = NA, color = "gray30", size = 0.3) +
@@ -246,7 +248,7 @@ for (batch in batch_nums_spatial) {
       y = "Longitude",
       color = "Relative value",
       size = "Relative value",
-      title = paste("Batch", batch, "- Year: {frame_time}")
+      title = paste(modelnames[[batch+1]], "Model - Year: {frame_time}")
     ) +
     transition_time(year) +
     ease_aes("linear") +
@@ -256,7 +258,7 @@ for (batch in batch_nums_spatial) {
   rendered_anim <- gganimate::animate(plot_obj, renderer = gifski_renderer())
 
   anim_save(
-    filename = file.path(output_dir, "from_source", paste0("batch_", batch, "_disease.gif")),
+    filename = file.path(output_dir, "from_source", paste0(output_dir, "/", modelnames[[batch+1]], "_disease.gif")),
     animation = rendered_anim
   )
 
