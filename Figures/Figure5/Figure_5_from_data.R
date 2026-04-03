@@ -80,6 +80,8 @@ countries <- ne_countries(scale = "medium", returnclass = "sf")
 #states <- ne_states(country = "United States of America", returnclass = "sf")
 states <- states50
 
+modelnames<- c("Neutral", "Resistance", "Tolerance", "Resistance + Tolerance")
+
 # Generate plot gifs
 for (batch in batch_nums_spatial) {
   combined_sf<- Fig_5_supplemental_data[[as.character(batch)]]
@@ -101,7 +103,7 @@ for (batch in batch_nums_spatial) {
       y = "Longitude",
       color = "Relative value",
       size = "Relative value",
-      title = paste("Batch", batch, "- Year: {frame_time}")
+      title = paste(modelnames[[batch+1]], "Model - Year: {frame_time}")
     ) +
     transition_time(year) +
     ease_aes("linear") +
@@ -111,7 +113,7 @@ for (batch in batch_nums_spatial) {
   rendered_anim <- gganimate::animate(plot_obj, renderer = gifski_renderer())
 
   anim_save(
-    filename = file.path(paste0(output_dir, "/batch_", batch, "_disease.gif")),
+    filename = file.path(paste0(output_dir, "/", modelnames[[batch+1]], "_disease.gif")),
     animation = 
       rendered_anim,
     fps = 5
